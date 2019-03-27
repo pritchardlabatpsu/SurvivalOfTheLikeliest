@@ -1,0 +1,44 @@
+---
+title: "MutBiasFig2C"
+author: "Scott Leighow"
+date: "February 7, 2019"
+output: html_document
+---
+
+## Figure 2C: "Survival of the Likeliest" Heat Map
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/Scott/Box Sync/MutBias/Figures/Figure2/Figure2C")
+library(ggplot2)
+rm(list=ls())
+```
+
+
+```{r}
+
+analytic.df = read.csv("Log2Ratio.csv",header=F)
+
+colnames(analytic.df) = c("log.mu","log.M","log2ratio")
+maxRatio = 2^max(analytic.df$log2ratio)
+
+ggplot(analytic.df,aes(x=log.mu,y=log.M))+theme_bw()+
+  geom_raster(aes(fill=2^log2ratio))+
+  # scale_fill_gradient2(low="blue",high="red",mid="white",midpoint=0)+
+  scale_fill_gradientn(colors=c("#2e368f","white","#ec2027"),
+                       values=c(0,0.01,1/maxRatio,0.25,1))+
+  scale_x_continuous(breaks=c(-9,-8,-7,-6),labels=parse(text=c('10^-9','10^-8','10^-7','10^-6')))+
+  scale_y_continuous(breaks=c(4,6,8,10,12),labels=parse(text=c('10^4','10^6','10^8','10^10','10^12')))+
+  xlab("Mutation Rate")+ylab("Effective Population Size")+
+  ggtitle("Two Allele Phase Plane")+
+  theme(
+    plot.title=element_text(hjust=0.5,size=22,face="bold"),
+    axis.title=element_text(size=20,face="bold"),
+    axis.text=element_text(size=20,color='black')
+  )+
+  guides(fill=F)
+
+# ggsave("MutBiasFig2C.pdf",width=8,height=6)
+
+```
+
