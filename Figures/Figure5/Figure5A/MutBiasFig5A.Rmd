@@ -1,0 +1,123 @@
+---
+title: "MutBiasFig5A"
+author: "Scott Leighow"
+date: "February 7, 2019"
+output: html_document
+---
+
+
+## Figure 5A: Nilotinib and Dasatinib Power Curves
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/Scott/Box Sync/MutBias/Figures/Figure5/")
+library(ggplot2)
+library(reshape)
+rm(list=ls())
+```
+
+
+## Clinical Trial Resistance Incidence
+
+```{r}
+
+# Hochhaus et al Blood 2013
+N.nilot.arm = 282
+nres.nilot = 11
+
+N.imat.n.arm = 283
+nres.imat.n = 21
+
+# Hughes et al Leukemia 2015
+N.dasat.arm = 259
+nres.dasat = 17
+
+N.imat.d.arm = 260
+nres.imat.d = 18
+
+```
+
+
+## Test of significance in clinical trials
+
+```{r}
+
+# Proportion Test
+nilot.prop.test = prop.test(c(nres.nilot,nres.imat.n),c(N.nilot.arm,N.imat.n.arm))
+# p-val = 0.104
+dasat.prop.test = prop.test(c(nres.dasat,nres.imat.d),c(N.dasat.arm,N.imat.d.arm))
+# p-val ~ 1
+
+## Chi Squared Test
+nilot.mat = matrix(c(nres.nilot,nres.imat.n,N.nilot.arm-nres.nilot,N.imat.n.arm-nres.imat.n),ncol=2)
+nilot.chisq = chisq.test(nilot.mat)
+# p-val = 0.104
+dasat.mat = matrix(c(nres.dasat,nres.imat.d,N.dasat.arm-nres.dasat,N.imat.d.arm-nres.imat.d),ncol=2)
+dasat.chisq = chisq.test(dasat.mat)
+# p-val ~ 1
+
+```
+
+
+## Power Calculations
+
+```{r}
+
+# Assume effect size from stochastic CML simulations
+pres.imat = 0.078
+pres.nilot = 0.042
+pres.dasat = 0.036
+
+# Calculate power for clinical trials
+nilot.power = power.prop.test(n=N.nilot.arm,p1=pres.imat,p2=pres.nilot,sig.level=0.05,power=NULL)$power
+dasat.power = power.prop.test(n=N.dasat.arm,p1=pres.imat,p2=pres.dasat,sig.level=0.05,power=NULL)$power
+
+# Power curves
+
+n.vec = 1:1000
+nilot = rep(NA,length(n.vec))
+dasat = nilot
+
+for (i in 1:length(n.vec)) {
+  n = n.vec[i]
+  nilot[i] = power.prop.test(n=n,p1=pres.imat,p2=pres.nilot,sig.level=0.05,power=NULL)$power
+  dasat[i] = power.prop.test(n=n,p1=pres.imat,p2=pres.dasat,sig.level=0.05,power=NULL)$power
+}
+
+power.df = data.frame(n=n.vec,nilot=nilot,dasat=dasat)
+power.df = melt(power.df,id="n")
+
+```
+
+
+## Plot Results
+
+```{r}
+
+n.color = "#1e5abc"
+d.color = "#2c9e16"
+
+ggplot(power.df,aes(x=n,y=value,color=variable))+theme_bw()+
+  geom_segment(aes(x=N.nilot.arm,xend=N.nilot.arm,y=0,yend=nilot.power),size=1.2,color=n.color)+
+  geom_segment(aes(x=0,xend=N.nilot.arm,y=nilot.power,yend=nilot.power),size=1.2,color=n.color)+
+  geom_segment(aes(x=N.dasat.arm,xend=N.dasat.arm,y=0,yend=dasat.power),size=1.2,color=d.color)+
+  geom_segment(aes(x=0,xend=N.dasat.arm,y=dasat.power,yend=dasat.power),size=1.2,color=d.color)+
+  geom_line(size=3)+
+  xlab("Trial Size")+ylab("Power")+
+  ggtitle("Power Curves: Nilotinib and Dasatinib")+
+  scale_color_manual(labels=c("Nilotinib","Dasatinib"),name="Drug",values=c(n.color,d.color))+
+  theme(
+    plot.title=element_text(size=20,face="bold",hjust=0.5),
+    axis.title=element_text(size=18,face="bold"),
+    axis.text=element_text(size=16,face="bold",color="black"),
+    legend.position=c(0.8,0.2),
+    legend.background=element_rect(fill="gray95"),
+    legend.text=element_text(size=16),
+    legend.title=element_text(size=18,face="bold"),
+    legend.title.align=0.5,
+    legend.key.size=unit(1,"cm")
+  )
+
+# ggsave("MutBiasFig5A.pdf",width=8,height=8)
+
+```

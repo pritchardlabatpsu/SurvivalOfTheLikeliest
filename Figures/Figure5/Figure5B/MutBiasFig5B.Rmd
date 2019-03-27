@@ -1,0 +1,392 @@
+---
+title: "MutBiasFig5B"
+author: "Scott Leighow"
+date: "February 7, 2019"
+output: html_document
+---
+
+
+## Figure 5B: Nilotinib and Dasatinib Drug Resistance Profiles
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/Scott/Box Sync/MutBias/Figures/Figure5/Figure5B")
+library(ggplot2)
+library(reshape)
+rm(list=ls())
+```
+
+
+## Parse Through IC50 Files
+
+```{r}
+
+all.files = list.files()
+csv.files = grep("inib.csv$",all.files,value=T)
+
+dose.resp.df = as.data.frame(matrix(nrow=0,ncol=6))
+colnames(dose.resp.df) = c("drug","genotype","replicate","dose.nM","luminescence","viability")
+
+for (i in 1:length(csv.files)) {
+  
+  file.name = csv.files[i]
+  drug.df = read.csv(file.name,header=F,stringsAsFactors=F)
+  
+  drug.name = drug.df[1,1]
+  
+  # correct mislabeled mutation in nilotinib file
+  if (drug.name=="Nilotinib") {
+    
+    drug.df[drug.df=="Q253H"] = "Y253H"
+    
+  }
+  
+  drug.df = drug.df[-1,]
+  drug.df = drug.df[drug.df$V2!="",] # Take out spaces between rows
+  row.names(drug.df) = 1:nrow(drug.df)
+  
+  gen.rows = drug.df[,1]!=""
+  n.genotypes = sum(gen.rows)
+  
+  for (j in 1:n.genotypes) {
+    
+    first.row = which(gen.rows)[j]+1
+    last.row = ifelse(j!=n.genotypes,which(gen.rows)[j+1]-1,nrow(drug.df))
+    range = first.row:last.row
+    
+    gen = drug.df[first.row-1,1]
+    doses = drug.df[range,2]
+    
+    # Convert doses to nM, if necessary
+    conc.cell = drug.df[first.row-1,2]
+    if (grepl("(uM)",conc.cell)) {
+      
+      doses[doses!="mock"] = as.numeric(doses[doses!="mock"])*1000
+      
+    }
+    
+    # n.reps = which(is.na(drug.df[first.row,]))[1]-3
+    
+    n.reps = which(!is.na(drug.df[first.row,]))[sum(!is.na(drug.df[first.row,]))]-2
+      # ifelse(is.na(drug.df[first.row,ncol(drug.df)]),which(is.na(drug.df[first.row,]))[1]-3,ncol(drug.df)-2)
+  
+    for (k in 1:n.reps) {
+      
+      dose.resp.k = as.data.frame(matrix(nrow=length(range),ncol=6))
+      colnames(dose.resp.k) = c("drug","genotype","replicate","dose.nM","luminescence","viability")
+      
+      # Populate dose.resp.k dataframe
+      dose.resp.k$drug = drug.name
+      dose.resp.k$genotype = gen
+      dose.resp.k$replicate = k
+      dose.resp.k$dose.nM = doses
+      dose.resp.k$luminescence = drug.df[range,k+2]
+      dose.resp.k$viability = dose.resp.k$luminescence/dose.resp.k$luminescence[dose.resp.k$dose.nM=="mock"]
+      
+      dose.resp.df = rbind(dose.resp.df,dose.resp.k)
+      
+    }
+  
+  }
+  
+}
+
+```
+
+
+## QC data
+
+```{r}
+
+# Remove replicates where viability at lowest dose is very different from viability at mock drug
+# i.e. remove replicates that do not fit standard Hill curve
+
+drugs = c("Imatinib","Nilotinib","Dasatinib")
+
+variants = unique(dose.resp.df$genotype)
+variants = variants[variants!="WT"]
+variants = variants[order(substr(variants,2,5))]
+genotypes = c("WT",variants)
+
+clean.dose.df = as.data.frame(matrix(nrow=0,ncol=ncol(dose.resp.df)))
+colnames(clean.dose.df) = colnames(dose.resp.df)
+
+for (i in 1:length(drugs)) {
+  
+  for (j in 1:length(genotypes)) {
+    
+    n.reps = max(dose.resp.df$replicate[dose.resp.df$drug==drugs[i]&dose.resp.df$genotype==genotypes[j]])
+    
+    clean.sub.df = as.data.frame(matrix(nrow=0,ncol=ncol(dose.resp.df)))
+    
+    # Remove replicates where viability at lowest dose is very different from viability at mock drug
+    # i.e. remove replicates that do not fit hill curve
+    
+    for (k in 1:n.reps) {
+      
+      sub.df = dose.resp.df[dose.resp.df$drug==drugs[i]&dose.resp.df$genotype==genotypes[j]&dose.resp.df$replicate==k,]
+      
+      # In some cases, difference in lowest dose across replicates
+      # if (is.na(sub.df$viability[nrow(sub.df)-1])) {
+      #   viab.min.dose = sub.df$viability[nrow(sub.df)-2]
+      # } else {
+      #   viab.min.dose = sub.df$viability[nrow(sub.df)-1]
+      # }
+      
+      viab.min.dose = sub.df$viability[nrow(sub.df)-1]
+      
+      if (viab.min.dose>0.8&viab.min.dose<1.2) {clean.sub.df=rbind(clean.sub.df,sub.df)}
+      
+    }
+    
+    # For each concentration, remove outliers (more than 1.5IQR from median value)
+
+    if (nrow(clean.sub.df)>0) {
+      
+      doses = unique(clean.sub.df$dose.nM)
+      
+      clean.sub.df$cleanViab = clean.sub.df$viability
+      
+      for (k in 1:length(doses)) {
+        
+        rows.k = which(clean.sub.df$dose.nM==doses[k])
+        
+        viab.k = clean.sub.df$viability[rows.k]
+        five.num = fivenum(viab.k)
+        
+        med = five.num[3]
+        IQR = five.num[4]-five.num[2]
+        
+        remove.logic = (viab.k<(med-1.5*IQR))|(viab.k>(med+1.5*IQR))
+        
+        clean.sub.df$cleanViab[rows.k[remove.logic]] = NA
+      }
+      
+    }
+
+    clean.dose.df = rbind(clean.dose.df,clean.sub.df)
+    
+  }
+  
+}
+
+```
+
+
+## Calculate IC50 curve parameters
+
+```{r}
+
+# Filter out all but 19 most prevalent variants
+imat.df = read.csv("Combined_data_frame_IC_Mutprob_abundance.csv")
+variants = genotypes[genotypes%in%imat.df$Compound]
+genotypes = c("WT",variants)
+
+drugs = c("Imatinib","Nilotinib","Dasatinib")
+
+# free.Caves = c(203,55,1.1,14) # free Caves (Rivera poster)
+# eff.Caves = c(444,131,11,159) # effective Caves (Rivera poster)
+# names(free.Caves) = drugs
+# names(eff.Caves) = drugs
+
+df1 = expand.grid(genotype=genotypes,drug=drugs)
+df1 = df1[,c(2,1)]
+df2 = as.data.frame(matrix(nrow=nrow(df1),ncol=3))
+# colnames(df2) = c("IC50","hill","cor","free.alpha","eff.alpha")
+colnames(df2) = c("IC50","hill","cor")
+IC50.df = cbind(df1,df2)
+
+for (i in 1:nrow(IC50.df)) {
+  
+  drug = IC50.df$drug[i]
+  genotype = IC50.df$genotype[i]
+  
+  # free.Cave = free.Caves[as.character(drug)]
+  # eff.Cave = eff.Caves[as.character(drug)]
+  t = 3 # duration of experiment [days]
+  
+  # dose.subdf = dose.resp.df[dose.resp.df$drug==drug&dose.resp.df$genotype==genotype&dose.resp.df$dose.nM!="mock",]
+  dose.subdf = clean.dose.df[clean.dose.df$drug==drug&clean.dose.df$genotype==genotype&clean.dose.df$dose.nM!="mock",]
+  
+    x = as.numeric(dose.subdf$dose.nM[!is.na(dose.subdf$cleanViab)])
+    y = dose.subdf$cleanViab[!(is.na(dose.subdf$cleanViab))]
+    
+    # plot(log10(x),y)
+    
+    # estimate IC50
+    lm.fit = lm(log10(x)~y)
+    a.start = as.numeric(10^predict(lm.fit,data.frame(y=0.5)))
+    
+    nlm.fit = nls(y~1/(1+(x/a)^b),start=c(a=a.start,b=2))
+    pred = predict(nlm.fit)
+    
+    plot(log10(x),y)
+    ord = order(pred)
+    lines(log10(x)[ord],pred[ord])
+    title(paste(drug,": ",genotype))
+    
+    val = coef(nlm.fit)
+    
+    # viab.free.Cave = predict(nlm.fit,data.frame(x=free.Cave)) # estimate viability at free Cave
+    # viab.eff.Cave = predict(nlm.fit,data.frame(x=eff.Cave)) # estimate viability at effective Cave
+    
+    IC50.df$IC50[i] = val[1]
+    IC50.df$hill[i] = val[2]
+    IC50.df$cor[i] = cor(y,pred)
+    # IC50.df$free.alpha[i] = -log(viab.free.Cave)/t
+    # IC50.df$eff.alpha[i] = -log(viab.eff.Cave)/t
+}
+
+
+```
+
+
+## Determine Growth Rate
+
+```{r}
+
+counts.df = read.csv("CellCounts.csv")
+
+n.rep = length(unique(counts.df$replicate))
+
+rates = matrix(nrow=n.rep,ncol=2)
+
+for (i in 1:n.rep) {
+  
+  sub.df = counts.df[counts.df$replicate==i,]
+  
+  alive.lm = lm(log(alive)~day,sub.df)
+  dead.lm = lm(log(dead)~day,sub.df)
+  
+  rates[i,1] = coef(alive.lm)[2]
+  rates[i,2] = coef(dead.lm)[2]
+  
+}
+
+ave.rates = colMeans(rates)
+
+BaF3.net.growth = ave.rates[1]
+# net growth rate = 0.7 /day
+BaF3.death.rate = ave.rates[2]
+BaF3.birth.rate = BaF3.net.growth+BaF3.death.rate
+
+```
+
+
+
+## Identify Resistance Variants
+
+```{r}
+
+df1 = expand.grid(genotype=genotypes,drug=drugs)
+df1 = df1[,c(2,1)]
+df2 = as.data.frame(matrix(nrow=nrow(df1),ncol=3))
+colnames(df2) = c("alpha.mean","phenotype","mut.prob")
+
+alpha.summary = cbind(df1,df2)
+
+pY = 0.18701/30.4 # LSC net growth w/o drug (Fassoni et al Hematologica 2018)
+
+# Import Alpha Values
+
+for (i in 1:length(drugs)) {
+  
+  drug = drugs[i]
+  
+  alpha.df = read.csv(paste(drug,"AlphaGeneratorResults121618.csv",sep=""),header=F)
+  
+  alpha.df = alpha.df[,5:ncol(alpha.df)]
+  colnames(alpha.df) = genotypes
+  
+  # Determine middle 95% intervals
+  
+  for (j in 1:length(genotypes)) {
+    
+    gen = genotypes[j]
+    
+    alpha.dist = alpha.df[,gen]
+    
+    dfrow = alpha.summary$drug==drug&alpha.summary$genotype==gen
+    
+    mean.alpha = mean(alpha.dist)
+    # lower.95 = quantile(alpha.dist,probs=0.025)
+    # upper.95 = quantile(alpha.dist,probs=0.975)
+    # median = median(alpha.dist)
+    
+    alpha.summary$alpha.mean[dfrow] = mean.alpha
+    # alpha.summary$alpha.l95[dfrow] = lower.95
+    # alpha.summary$alpha.u95[dfrow] = upper.95
+    
+    # if (lower.95>pY) {
+    #   alpha.summary$phenotype[dfrow]="Sensitive"
+    # } else if (upper.95<pY) {
+    #   alpha.summary$phenotype[dfrow]="Resistant"
+    # } else {
+    #   alpha.summary$phenotype[dfrow]="Moderate"
+    # }
+    
+    if (mean.alpha>pY) {
+      alpha.summary$phenotype[dfrow]="Sensitive"
+    } else {
+      alpha.summary$phenotype[dfrow]="Resistant"
+      alpha.summary$mut.prob[dfrow] = imat.df[imat.df$Compound==gen,"Mutation.Probability"]/sum(imat.df$Mutation.Probability)
+    }
+    
+    # if (gen!="WT") {
+    #   alpha.summary$mut.prob[dfrow] = imat.df[imat.df$Compound==gen,"Mutation.Probability"]/sum(imat.df$Mutation.Probability)
+    # }
+    
+  }
+  
+}
+
+
+```
+
+
+## Plot Results
+
+```{r}
+
+alpha.summary$phenotype = factor(alpha.summary$phenotype,levels=c("Sensitive","Resistant"))
+
+# Reorder based on probability
+
+vars = imat.df$Compound
+var.probs = imat.df$Mutation.Probability
+sort.vars = vars[order(-var.probs)]
+
+alpha.summary$genotype = factor(alpha.summary$genotype,levels=rev(c("WT",as.character(sort.vars))))
+
+# ggplot(alpha.summary,aes(x=drug,y=genotype))+theme_bw()+
+#   geom_raster(aes(fill=phenotype))+
+#   scale_fill_manual(name="Phenotype",labels=c(" Sensitive"," Resistant"),values=c("white","gray50"))+
+#   xlab("")+ylab("Genotype")+ggtitle("Drug Resistance Profiles")+
+#   theme(
+#     plot.title=element_text(size=20,face="bold",hjust=0.5),
+#     axis.title=element_text(size=18,face="bold"),
+#     axis.text=element_text(size=14,face="bold",color="black"),
+#     legend.title.align=0.5,
+#     legend.text=element_text(size=12,face="bold"),
+#     legend.title=element_text(size=14,face="bold"),
+#     legend.key = element_rect(color="black",size=2)
+#   )
+
+ggplot(alpha.summary,aes(x=drug,y=genotype))+theme_bw()+
+  geom_raster(aes(fill=mut.prob))+
+  scale_fill_gradient(name="Mutational\nLiability",low="#F9C2C4",high="#EC2027",na.value="gray80")+
+  xlab("")+ylab("Genotype")+ggtitle("Drug Resistance Profiles")+
+  theme(
+    plot.title=element_text(size=20,face="bold",hjust=0.5),
+    axis.title=element_text(size=18,face="bold"),
+    axis.text=element_text(size=14,face="bold",color="black"),
+    legend.title.align=0.5,
+    legend.text=element_text(size=12,face="bold"),
+    legend.title=element_text(size=14,face="bold"),
+    legend.key = element_rect(color="black",size=2)
+  )
+
+# ggsave("MutBiasFig5B.pdf",width=8,height=8)
+
+
+```
