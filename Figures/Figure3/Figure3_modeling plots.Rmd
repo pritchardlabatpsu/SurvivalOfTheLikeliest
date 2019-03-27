@@ -1,0 +1,190 @@
+---
+title: "Figure3_Analysis_Abundance_this_study"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls())
+library("lmtest")
+library("ggplot2")
+library("MASS")
+library("fitdistrplus")
+library("lme4")
+library("boot")
+
+
+setwd("~/MutationFreq_ABL_IC50/Figures/Figure 3")
+compicmut=read.csv("Combined_data_frame_IC_Mutprob_Abundance.csv",header=T,stringsAsFactors=F)
+
+```
+
+## Exploration of the predictor variables
+First we use a series of plots to explore the data
+```{r , echo=TRUE}
+
+x=ggplot(compicmut,aes(Mutation.Probability,IC50))
+x+geom_point(aes(size=1))+theme_classic()+theme(axis.text.x = element_text(size=15),axis.text.y = element_text(size=15))
+
+x=ggplot(compicmut,aes(IC50,med_ctr_growth))
+x+geom_point(aes(size=1))+theme_classic()+theme(axis.text.x = element_text(size=15),axis.text.y = element_text(size=15))
+
+x=ggplot(compicmut,aes(med_ctr_growth,Mutation.Probability))
+x+geom_point(aes(size=1))+theme_classic()+theme(axis.text.x = element_text(size=15),axis.text.y = element_text(size=15))
+
+```
+
+## Abundance values are counts so we will use count regression
+A poisson distribution fit to the Abundance data appears over dispersed, and a negative binomial distribution fits better.
+
+```{r , echo=TRUE}
+plot(fitdist(compicmut$Abundance,"pois"))#overdispersed
+plot(fitdist(compicmut$Abundance,"nbinom"))#fit appears better than poisson
+```
+
+##Below are summaries for all single variable models, and the best 2 and 3 variable models
+```{r echo=TRUE}
+# Of IC50 variables, the best single variable model that includes IC50 is below
+fit1 <- glm.nb(Abundance ~ log10(IC50), data=compicmut)
+summary(fit1)
+```
+
+```{r echo=TRUE}
+#The best single variable model is a model based upon mutation probab
+fit2 <- glm.nb(Abundance~Mutation.Probability, data=compicmut) 
+#Best single variable model
+summary(fit2)
+```
+
+```{r echo=TRUE}
+#Relative growth is not a good predictor of Abundance
+fit3<-glm.nb(Abundance ~ relative_growth, data=compicmut)
+summary(fit3)
+```
+
+```{r echo=TRUE}
+#Median centering does not help growth predict Abundance
+fit4<-glm.nb(Abundance ~ med_ctr_growth, data=compicmut)
+summary(fit4)
+```
+
+```{r echo=TRUE}
+#The best 2 variable model includes a log transformation of growth in the presence of drug(IC50) and mutation probability
+fit5<-glm.nb(Abundance ~ IC50+log10(Mutation.Probability), data=compicmut) #Best 2 variable model
+summary(fit5)
+```
+
+```{r echo=TRUE}
+fit7<-glm.nb(Abundance ~IC50+log10(Mutation.Probability)+relative_growth, data=compicmut) #Best 3 variable model
+summary(fit7)# While AIC decreases here,the decrease is small, the coefficient is negative (which is unlikely), and the pval is not particularly significant. Therefore it seems that this best 3 variable model is likely overfit. I will examine LOOCV, and test set mean squared error for final model selection.
+```
+
+```{r}
+#Build a data frame for plotting
+Data_fit=data.frame(cbind(compicmut,fit5$fitted.values,fit1$fitted.values,fit2$fitted.values))
+```
+
+```{r}
+#This plots best fit of the IC50 data
+x=ggplot(data =Data_fit,aes(fit1.fitted.values,Abundance))
+x+geom_point(aes(size=1))+theme_classic()+stat_function(fun=function(x)x, geom="line", aes(colour="square",size=1.0),)+theme(axis.text.x = element_text(size=15),axis.text.y = element_text(size=15))
+```
+
+#Plot the single variable mutation probability model
+```{r}
+x=ggplot(data =Data_fit,aes(fit2.fitted.values,Abundance))
+x+geom_point(aes(size=1))+theme_classic()+stat_function(fun=function(x)x, geom="line", aes(colour="square",size=1.0),)+theme(axis.text.x = element_text(size=15),axis.text.y = element_text(size=15))
+```
+
+#Observed versus predicted for best 2 variable model
+```{r}
+x=ggplot(data =Data_fit,aes(fit5.fitted.values,Abundance))
+x+geom_point(aes(size=1))+theme_classic()+stat_function(fun=function(x)x, geom="line", aes(colour="square",size=1.0),)+theme(axis.text.x = element_text(size=15),axis.text.y = element_text(size=15))
+```
+
+## Calculate the significance of the model with/without mutation probability
+Model is VERY significantly improved by including mutation probability
+```{r echo=TRUE}
+f5no_mut <- update(fit5, . ~ . -log10(Mutation.Probability) )
+anova(fit5, f5no_mut)
+```
+
+## Calculate whether a Negative Binomial regression and therefore the second distribution parameter is supported by the data.
+```{r echo=TRUE}
+fit5pois <- glm(Abundance ~ log10(Mutation.Probability)+IC50, family = "poisson", data = compicmut)
+pchisq(2 * (logLik(fit5) - logLik(fit5pois)), df = 1, lower.tail = FALSE)
+```
+
+##To confirm the choice between the best 2 and 3 variable models, we will use cross validation
+```{r echo=TRUE}
+record=matrix(nrow=6,ncol=nrow(compicmut))
+for (i in 1:nrow(compicmut)){
+  train=compicmut[-i,]
+  test=compicmut[i,]
+  fit1cv=glm.nb(Abundance~Mutation.Probability, data=train)#Best 1 variable model
+  fit2cv=glm.nb(Abundance ~ IC50+log10(Mutation.Probability), data=train) #Best 2 variable model
+  fit3cv=glm.nb(Abundance ~ IC50+log10(Mutation.Probability)+relative_growth,data=train) #Best 3 variable model
+  growthfit=glm.nb(Abundance ~ IC50+relative_growth+med_ctr_growth,data=train)
+  record[1,i]=predict(fit1cv, test, type = "response")
+  record[2,i]=predict(fit2cv, test, type = "response")
+  record[3,i]=predict(fit3cv, test, type = "response")
+  record[4,i]=predict(growthfit, test, type = "response")
+  pred=predict(fit2cv, test, type = "response", se.fit=T)
+  growpred=predict(growthfit, test, type = "response", se.fit=T)
+  record[5,i]=pred$se.fit
+  record[6,i]=growpred$se.fit
+}
+MSE=matrix(nrow=3,ncol=1)
+#TestMSE
+MSE[1,1]=round((sum((record[1,]-compicmut$Abundance)^2))/nrow(compicmut),digits=2)
+MSE[2,1]=round((sum((record[2,]-compicmut$Abundance)^2))/nrow(compicmut),digits = 2)
+MSE[3,1]=round((sum((record[3,]-compicmut$Abundance)^2))/nrow(compicmut),digits = 2)
+MSE=data.frame(cbind(c(1,2,3),as.numeric(as.character(c(MSE[,1]))),c("LOOCV","LOOCV","LOOCV")), stringsAsFactors = F)
+
+colnames(MSE)[1:3]=c("Variable_Number_In_Model","MSE","Type")
+MSE=transform(MSE, MSE = as.numeric(MSE))
+
+```
+
+## The LOOCV mean squared error(MSE) of the test observation for the best 1,2,3 variable models
+Note that a minimum is seen at 2 variables, and that this is consistent with a model that only includes mutation probability and IC50
+```{r}
+x=ggplot(data=MSE, aes(x=Variable_Number_In_Model,y=MSE))
+x+geom_bar(stat="identity")+theme_classic()
+```
+
+```{r}
+#Build data frame
+binconU=sqrt(sum(Data_fit$Abundance)*(Data_fit$Abundance/sum(Data_fit$Abundance))*((sum(Data_fit$Abundance)-Data_fit$Abundance)/sum(Data_fit$Abundance)))+Data_fit$Abundance
+binconL=Data_fit$Abundance-sqrt(sum(Data_fit$Abundance)*(Data_fit$Abundance/sum(Data_fit$Abundance))*((sum(Data_fit$Abundance)-Data_fit$Abundance)/sum(Data_fit$Abundance)))
+Data_fit=data.frame(cbind(compicmut,fit5$fitted.values,fit1$fitted.values,fit2$fitted.values,record[2,],record[5,],binconU,binconL,record[6,],record[4,]))
+colnames(Data_fit)[9:17]=c("Vars_3","Vars_1","Vars_2","CV_2Var_mod","sd","binconL","binconU","sdgrow","growpred")
+```
+
+#Observed vs Predicted for cross validation
+```{r}
+
+plot(Data_fit$Abundance,Data_fit$CV_2Var_mod,xlim=c(1,65),ylim=c(1,65),
+    pch=19,cex=2.5,cex.axis=2,cex.lab=1.5, xlab="Measured Counts", ylab="Predicted Counts")
+# hack: we draw arrows but with very special "arrowheads"
+arrows(Data_fit$Abundance,Data_fit$CV_2Var_mod-Data_fit$sd,Data_fit$Abundance,Data_fit$CV_2Var_mod+Data_fit$sd, length=0.09, angle=90,lwd=3, code=3)
+arrows(Data_fit$binconL,Data_fit$CV_2Var_mod,Data_fit$binconU,Data_fit$CV_2Var_mod, length=0.09, angle=90,lwd=3, code=3)
+abline(a=0,b=1,col="red",lwd=3)
+m=lm(Abundance~Vars_2+0,data=Data_fit)
+summary(m)
+```
+```{r}
+
+
+```
+```{r}
+plot(Data_fit$Abundance,Data_fit$growpred,xlim=c(1,50),ylim=c(1,50),
+    pch=19,cex=2.5,cex.axis=2,cex.lab=1.5, xlab="Measured Counts", ylab="Predicted Counts")
+# hack: we draw arrows but with very special "arrowheads"
+arrows(Data_fit$Abundance,Data_fit$growpred-Data_fit$sdgrow,Data_fit$Abundance,Data_fit$growpred+Data_fit$sdgrow, length=0.09, angle=90,lwd=3, code=3)
+arrows(Data_fit$binconL,Data_fit$growpred,Data_fit$binconU,Data_fit$growpred, length=0.09, angle=90,lwd=3, code=3)
+abline(a=0,b=1,col="red",lwd=3)
+summary(lm(Abundance~growpred,Data_fit))
+```
+
+

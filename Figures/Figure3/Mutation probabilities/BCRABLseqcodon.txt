@@ -1,0 +1,307 @@
+Met Val Asp Pro Val Gly Phe Ala Glu Ala Trp Lys Ala Gln Phe Pro Asp Ser Glu Pro 
+ATG GTG GAC CCG GTG GGC TTC GCG GAG GCG TGG AAG GCG CAG TTC CCG GAC TCA GAG CCC 
+
+Pro Arg Met Glu Leu Arg Ser Val Gly Asp Ile Glu Gln Glu Leu Glu Arg Cys Lys Ala 
+CCG CGC ATG GAG CTG CGC TCA GTG GGC GAC ATC GAG CAG GAG CTG GAG CGC TGC AAG GCC 
+
+Ser Ile Arg Arg Leu Glu Gln Glu Val Asn Gln Glu Arg Phe Arg Met Ile Tyr Leu Gln 
+TCC ATT CGG CGC CTG GAG CAG GAG GTG AAC CAG GAG CGC TTC CGC ATG ATC TAC CTG CAG 
+
+Thr Leu Leu Ala Lys Glu Lys Lys Ser Tyr Asp Arg Gln Arg Trp Gly Phe Arg Arg Ala 
+ACG TTG CTG GCC AAG GAA AAG AAG AGC TAT GAC CGG CAG CGA TGG GGC TTC CGG CGC GCG 
+
+Ala Gln Ala Pro Asp Gly Ala Ser Glu Pro Arg Ala Ser Ala Ser Arg Pro Gln Pro Ala 
+GCG CAG GCC CCC GAC GGC GCC TCC GAG CCC CGA GCG TCC GCG TCG CGC CCG CAG CCA GCG 
+
+Pro Ala Asp Gly Ala Asp Pro Pro Pro Ala Glu Glu Pro Glu Ala Arg Pro Asp Gly Glu 
+CCC GCC GAC GGA GCC GAC CCG CCG CCC GCC GAG GAG CCC GAG GCC CGG CCC GAC GGC GAG 
+
+Gly Ser Pro Gly Lys Ala Arg Pro Gly Thr Ala Arg Arg Pro Gly Ala Ala Ala Ser Gly 
+GGT TCT CCG GGT AAG GCC AGG CCC GGG ACC GCC CGC AGG CCC GGG GCA GCC GCG TCG GGG 
+
+Glu Arg Asp Asp Arg Gly Pro Pro Ala Ser Val Ala Ala Leu Arg Ser Asn Phe Glu Arg 
+GAA CGG GAC GAC CGG GGA CCC CCC GCC AGC GTG GCG GCG CTC AGG TCC AAC TTC GAG CGG 
+
+Ile Arg Lys Gly His Gly Gln Pro Gly Ala Asp Ala Glu Lys Pro Phe Tyr Val Asn Val 
+ATC CGG AAG GGC CAT GGC CAG CCC GGG GCG GAC GCC GAG AAG CCC TTC TAC GTG AAC GTC 
+
+Glu Phe His His Glu Arg Gly Leu Val Lys Val Asn Asp Lys Glu Val Ser Asp Arg Ile 
+GAG TTT CAC CAC GAG CGC GGC CTG GTG AAG GTC AAC GAC AAA GAG GTG TCG GAC CGC ATC 
+
+Ser Ser Leu Gly Ser Gln Ala Met Gln Met Glu Arg Lys Lys Ser Gln His Gly Ala Gly 
+AGC TCC CTT GGC AGC CAG GCC ATG CAG ATG GAG CGC AAA AAG TCC CAG CAC GGC GCG GGC 
+
+Ser Ser Val Gly Asp Ala Ser Arg Pro Pro Tyr Arg Gly Arg Ser Ser Glu Ser Ser Cys 
+TCG AGC GTG GGG GAT GCA TCC AGG CCC CCT TAC CGG GGA CGC TCC TCG GAG AGC AGC TGC 
+
+Gly Val Asp Gly Asp Tyr Glu Asp Ala Glu Leu Asn Pro Arg Phe Leu Lys Asp Asn Leu 
+GGC GTC GAC GGC GAC TAC GAG GAC GCC GAG TTG AAC CCC CGC TTC CTG AAG GAC AAC CTG 
+
+Ile Asp Ala Asn Gly Gly Ser Arg Pro Pro Trp Pro Pro Leu Glu Tyr Gln Pro Tyr Gln 
+ATC GAC GCC AAT GGC GGT AGC AGG CCC CCT TGG CCG CCC CTG GAG TAC CAG CCC TAC CAG 
+
+Ser Ile Tyr Val Gly Gly Ile Met Glu Gly Glu Gly Lys Gly Pro Leu Leu Arg Ser Gln 
+AGC ATC TAC GTC GGG GGC ATC ATG GAA GGG GAG GGC AAG GGC CCG CTC CTG CGC AGC CAG 
+
+Ser Thr Ser Glu Gln Glu Lys Arg Leu Thr Trp Pro Arg Arg Ser Tyr Ser Pro Arg Ser 
+AGC ACC TCT GAG CAG GAG AAG CGC CTT ACC TGG CCC CGC AGG TCC TAC TCC CCC CGG AGT 
+
+Phe Glu Asp Cys Gly Gly Gly Tyr Thr Pro Asp Cys Ser Ser Asn Glu Asn Leu Thr Ser 
+TTT GAG GAT TGC GGA GGC GGC TAT ACC CCG GAC TGC AGC TCC AAT GAG AAC CTC ACC TCC 
+
+Ser Glu Glu Asp Phe Ser Ser Gly Gln Ser Ser Arg Val Ser Pro Ser Pro Thr Thr Tyr 
+AGC GAG GAG GAC TTC TCC TCT GGC CAG TCC AGC CGC GTG TCC CCA AGC CCC ACC ACC TAC 
+
+Arg Met Phe Arg Asp Lys Ser Arg Ser Pro Ser Gln Asn Ser Gln Gln Ser Phe Asp Ser 
+CGC ATG TTC CGG GAC AAA AGC CGC TCT CCC TCG CAG AAC TCG CAA CAG TCC TTC GAC AGC 
+
+Ser Ser Pro Pro Thr Pro Gln Cys His Lys Arg His Arg His Cys Pro Val Val Val Ser 
+AGC AGT CCC CCC ACG CCG CAG TGC CAT AAG CGG CAC CGG CAC TGC CCG GTT GTC GTG TCC 
+
+Glu Ala Thr Ile Val Gly Val Arg Lys Thr Gly Gln Ile Trp Pro Asn Asp Asp Glu Gly 
+GAG GCC ACC ATC GTG GGC GTC CGC AAG ACC GGG CAG ATC TGG CCC AAC GAT GAC GAG GGC 
+
+Ala Phe His Gly Asp Ala Asp Gly Ser Phe Gly Thr Pro Pro Gly Tyr Gly Cys Ala Ala 
+GCC TTC CAT GGA GAC GCA GAT GGC TCG TTC GGA ACA CCA CCT GGA TAC GGC TGC GCT GCA 
+
+Asp Arg Ala Glu Glu Gln Arg Arg His Gln Asp Gly Leu Pro Tyr Ile Asp Asp Ser Pro 
+GAC CGG GCA GAG GAG CAG CGC CGG CAC CAA GAT GGG CTG CCC TAC ATT GAT GAC TCG CCC 
+
+Ser Ser Ser Pro His Leu Ser Ser Lys Gly Arg Gly Ser Arg Asp Ala Leu Val Ser Gly 
+TCC TCA TCG CCC CAC CTC AGC AGC AAG GGC AGG GGC AGC CGG GAT GCG CTG GTC TCG GGA 
+
+Ala Leu Lys Ser Thr Lys Ala Ser Glu Leu Asp Leu Glu Lys Gly Leu Glu Met Arg Lys 
+GCC CTG AAG TCC ACT AAA GCG AGT GAG CTG GAC TTG GAA AAG GGC TTG GAG ATG AGA AAA 
+
+Trp Val Leu Ser Gly Ile Leu Ala Ser Glu Glu Thr Tyr Leu Ser His Leu Glu Ala Leu 
+TGG GTC CTG TCG GGA ATC CTG GCT AGC GAG GAG ACT TAC CTG AGC CAC CTG GAG GCA CTG 
+
+Leu Leu Pro Met Lys Pro Leu Lys Ala Ala Ala Thr Thr Ser Gln Pro Val Leu Thr Ser 
+CTG CTG CCC ATG AAG CCT TTG AAA GCC GCT GCC ACC ACC TCT CAG CCG GTG CTG ACG AGT 
+
+Gln Gln Ile Glu Thr Ile Phe Phe Lys Val Pro Glu Leu Tyr Glu Ile His Lys Glu Ser 
+CAG CAG ATC GAG ACC ATC TTC TTC AAA GTG CCT GAG CTC TAC GAG ATC CAC AAG GAG TCC 
+
+Tyr Asp Gly Leu Phe Pro Arg Val Gln Gln Trp Ser His Gln Gln Arg Val Gly Asp Leu 
+TAT GAT GGG CTC TTC CCC CGC GTG CAG CAG TGG AGC CAC CAG CAG CGG GTG GGC GAC CTC 
+
+Phe Gln Lys Leu Ala Ser Gln Leu Gly Val Tyr Arg Ala Phe Val Asp Asn Tyr Gly Val 
+TTC CAG AAG CTG GCC AGC CAG CTG GGT GTG TAC CGG GCC TTC GTG GAC AAC TAC GGA GTT 
+
+Ala Met Glu Met Ala Glu Lys Cys Cys Gln Ala Asn Ala Gln Phe Ala Glu Ile Ser Glu 
+GCC ATG GAA ATG GCT GAG AAG TGC TGT CAG GCC AAT GCT CAG TTT GCA GAA ATC TCC GAG 
+
+Asn Leu Arg Ala Arg Ser Asn Lys Asp Ala Lys Asp Pro Thr Thr Lys Asn Ser Leu Glu 
+AAC CTG AGA GCC AGA AGC AAC AAA GAT GCC AAG GAT CCA ACG ACC AAG AAC TCT CTG GAA 
+
+Thr Leu Leu Tyr Lys Pro Val Asp Arg Val Thr Arg Ser Thr Leu Val Leu His Asp Leu 
+ACT CTG CTC TAC AAG CCT GTG GAC CGT GTG ACG AGG AGC ACG CTG GTC CTC CAT GAC TTG 
+
+Leu Lys His Thr Pro Ala Ser His Pro Asp His Pro Leu Leu Gln Asp Ala Leu Arg Ile 
+CTG AAG CAC ACT CCT GCC AGC CAC CCT GAC CAC CCC TTG CTG CAG GAC GCC CTC CGC ATC 
+
+Ser Gln Asn Phe Leu Ser Ser Ile Asn Glu Glu Ile Thr Pro Arg Arg Gln Ser Met Thr 
+TCA CAG AAC TTC CTG TCC AGC ATC AAT GAG GAG ATC ACA CCC CGA CGG CAG TCC ATG ACG 
+
+Val Lys Lys Gly Glu His Arg Gln Leu Leu Lys Asp Ser Phe Met Val Glu Leu Val Glu 
+GTG AAG AAG GGA GAG CAC CGG CAG CTG CTG AAG GAC AGC TTC ATG GTG GAG CTG GTG GAG 
+
+Gly Ala Arg Lys Leu Arg His Val Phe Leu Phe Thr Asp Leu Leu Leu Cys Thr Lys Leu 
+GGG GCC CGC AAG CTG CGG CAC GTC TTC CTG TTC ACC GAC CTG CTT CTC TGC ACC AAG CTC 
+
+Lys Lys Gln Ser Gly Gly Lys Thr Gln Gln Tyr Asp Cys Lys Trp Tyr Ile Pro Leu Thr 
+AAG AAG CAG AGC GGA GGC AAA ACG CAG CAG TAT GAC TGC AAA TGG TAC ATT CCG CTC ACG 
+
+Asp Leu Ser Phe Gln Met Val Asp Glu Leu Glu Ala Val Pro Asn Ile Pro Leu Val Pro 
+GAT CTC AGC TTC CAG ATG GTG GAT GAA CTG GAG GCA GTG CCC AAC ATC CCC CTG GTG CCC 
+
+Asp Glu Glu Leu Asp Ala Leu Lys Ile Lys Ile Ser Gln Ile Lys Ser Asp Ile Gln Arg 
+GAT GAG GAG CTG GAC GCT TTG AAG ATC AAG ATC TCC CAG ATC AAG AGT GAC ATC CAG AGA 
+
+Glu Lys Arg Ala Asn Lys Gly Ser Lys Ala Thr Glu Arg Leu Lys Lys Lys Leu Ser Glu 
+GAG AAG AGG GCG AAC AAG GGC AGC AAG GCT ACG GAG AGG CTG AAG AAG AAG CTG TCG GAG 
+
+Gln Glu Ser Leu Leu Leu Leu Met Ser Pro Ser Met Ala Phe Arg Val His Ser Arg Asn 
+CAG GAG TCA CTG CTG CTG CTT ATG TCT CCC AGC ATG GCC TTC AGG GTG CAC AGC CGC AAC 
+
+Gly Lys Ser Tyr Thr Phe Leu Ile Ser Ser Asp Tyr Glu Arg Ala Glu Trp Arg Glu Asn 
+GGC AAG AGT TAC ACG TTC CTG ATC TCC TCT GAC TAT GAG CGT GCA GAG TGG AGG GAG AAC 
+
+Ile Arg Glu Gln Gln Lys Lys Cys Phe Arg Ser Phe Ser Leu Thr Ser Val Glu Leu Gln 
+ATC CGG GAG CAG CAG AAG AAG TGT TTC AGA AGC TTC TCC CTG ACA TCC GTG GAG CTG CAG 
+
+Met Leu Thr Asn Ser Cys Val Lys Leu Gln Thr Val His Ser Ile Pro Leu Thr Ile Asn 
+ATG CTG ACC AAC TCG TGT GTG AAA CTC CAG ACT GTC CAC AGC ATT CCG CTG ACC ATC AAT 
+
+Lys Glu Asp Asp Glu Ser Pro Gly Leu Tyr Gly Phe Leu Asn Val Ile Val His Ser Ala 
+AAG GAA GAT GAT GAG TCT CCG GGG CTC TAT GGG TTT CTG AAT GTC ATC GTC CAC TCA GCC 
+
+Thr Gly Phe Lys Gln Ser Ser Lys Ala Leu Gln Arg Pro Val Ala Ser Asp Phe Glu Pro 
+ACT GGA TTT AAG CAG AGT TCA AAA GCC CTT CAG CGG CCA GTA GCA TCT GAC TTT GAG CCT 
+
+Gln Gly Leu Ser Glu Ala Ala Arg Trp Asn Ser Lys Glu Asn Leu Leu Ala Gly Pro Ser 
+CAG GGT CTG AGT GAA GCC GCT CGT TGG AAC TCC AAG GAA AAC CTT CTC GCT GGA CCC AGT 
+
+Glu Asn Asp Pro Asn Leu Phe Val Ala Leu Tyr Asp Phe Val Ala Ser Gly Asp Asn Thr 
+GAA AAT GAC CCC AAC CTT TTC GTT GCA CTG TAT GAT TTT GTG GCC AGT GGA GAT AAC ACT 
+
+Leu Ser Ile Thr Lys Gly Glu Lys Leu Arg Val Leu Gly Tyr Asn His Asn Gly Glu Trp 
+CTA AGC ATA ACT AAA GGT GAA AAG CTC CGG GTC TTA GGC TAT AAT CAC AAT GGG GAA TGG 
+
+Cys Glu Ala Gln Thr Lys Asn Gly Gln Gly Trp Val Pro Ser Asn Tyr Ile Thr Pro Val 
+TGT GAA GCC CAA ACC AAA AAT GGC CAA GGC TGG GTC CCA AGC AAC TAC ATC ACG CCA GTC 
+
+Asn Ser Leu Glu Lys His Ser Trp Tyr His Gly Pro Val Ser Arg Asn Ala Ala Glu Tyr 
+AAC AGT CTG GAG AAA CAC TCC TGG TAC CAT GGG CCT GTG TCC CGC AAT GCC GCT GAG TAT 
+
+Pro Leu Ser Ser Gly Ile Asn Gly Ser Phe Leu Val Arg Glu Ser Glu Ser Ser Pro Ser 
+CCG CTG AGC AGC GGG ATC AAT GGC AGC TTC TTG GTG CGT GAG AGT GAG AGC AGT CCT AGC 
+
+Gln Arg Ser Ile Ser Leu Arg Tyr Glu Gly Arg Val Tyr His Tyr Arg Ile Asn Thr Ala 
+CAG AGG TCC ATC TCG CTG AGA TAC GAA GGG AGG GTG TAC CAT TAC AGG ATC AAC ACT GCT 
+
+Ser Asp Gly Lys Leu Tyr Val Ser Ser Glu Ser Arg Phe Asn Thr Leu Ala Glu Leu Val 
+TCT GAT GGC AAG CTC TAC GTC TCC TCC GAG AGC CGC TTC AAC ACC CTG GCC GAG TTG GTT 
+
+His His His Ser Thr Val Ala Asp Gly Leu Ile Thr Thr Leu His Tyr Pro Ala Pro Lys 
+CAT CAT CAT TCA ACG GTG GCC GAC GGG CTC ATC ACC ACG CTC CAT TAT CCA GCC CCA AAG 
+
+Arg Asn Lys Pro Thr Val Tyr Gly Val Ser Pro Asn Tyr Asp Lys Trp Glu Met Glu Arg 
+CGC AAC AAG CCC ACT GTC TAT GGT GTG TCC CCC AAC TAC GAC AAG TGG GAG ATG GAA CGC 
+
+Thr Asp Ile Thr Met Lys His Lys Leu Gly Gly Gly Gln Tyr Gly Glu Val Tyr Glu Gly 
+ACG GAC ATC ACC ATG AAG CAC AAG CTG GGC GGG GGC CAG TAC GGG GAG GTG TAC GAG GGC 
+
+Val Trp Lys Lys Tyr Ser Leu Thr Val Ala Val Lys Thr Leu Lys Glu Asp Thr Met Glu 
+GTG TGG AAG AAA TAC AGC CTG ACG GTG GCC GTG AAG ACC TTG AAG GAG GAC ACC ATG GAG 
+
+Val Glu Glu Phe Leu Lys Glu Ala Ala Val Met Lys Glu Ile Lys His Pro Asn Leu Val 
+GTG GAA GAG TTC TTG AAA GAA GCT GCA GTC ATG AAA GAG ATC AAA CAC CCT AAC CTA GTG 
+
+Gln Leu Leu Gly Val Cys Thr Arg Glu Pro Pro Phe Tyr Ile Ile Thr Glu Phe Met Thr 
+CAG CTC CTT GGG GTC TGC ACC CGG GAG CCC CCG TTC TAT ATC ATC ACT GAG TTC ATG ACC 
+
+Tyr Gly Asn Leu Leu Asp Tyr Leu Arg Glu Cys Asn Arg Gln Glu Val Asn Ala Val Val 
+TAC GGG AAC CTC CTG GAC TAC CTG AGG GAG TGC AAC CGG CAG GAG GTG AAC GCC GTG GTG 
+
+Leu Leu Tyr Met Ala Thr Gln Ile Ser Ser Ala Met Glu Tyr Leu Glu Lys Lys Asn Phe 
+CTG CTG TAC ATG GCC ACT CAG ATC TCG TCA GCC ATG GAG TAC CTG GAG AAG AAA AAC TTC 
+
+Ile His Arg Asp Leu Ala Ala Arg Asn Cys Leu Val Gly Glu Asn His Leu Val Lys Val 
+ATC CAC AGA GAT CTT GCT GCC CGA AAC TGC CTG GTA GGG GAG AAC CAC TTG GTG AAG GTA 
+
+Ala Asp Phe Gly Leu Ser Arg Leu Met Thr Gly Asp Thr Tyr Thr Ala His Ala Gly Ala 
+GCT GAT TTT GGC CTG AGC AGG TTG ATG ACA GGG GAC ACC TAC ACA GCC CAT GCT GGA GCC 
+
+Lys Phe Pro Ile Lys Trp Thr Ala Pro Glu Ser Leu Ala Tyr Asn Lys Phe Ser Ile Lys 
+AAG TTC CCC ATC AAA TGG ACT GCA CCC GAG AGC CTG GCC TAC AAC AAG TTC TCC ATC AAG 
+
+Ser Asp Val Trp Ala Phe Gly Val Leu Leu Trp Glu Ile Ala Thr Tyr Gly Met Ser Pro 
+TCC GAC GTC TGG GCA TTT GGA GTA TTG CTT TGG GAA ATT GCT ACC TAT GGC ATG TCC CCT 
+
+Tyr Pro Gly Ile Asp Leu Ser Gln Val Tyr Glu Leu Leu Glu Lys Asp Tyr Arg Met Glu 
+TAC CCG GGA ATT GAC CTG TCC CAG GTG TAT GAG CTG CTA GAG AAG GAC TAC CGC ATG GAG 
+
+Arg Pro Glu Gly Cys Pro Glu Lys Val Tyr Glu Leu Met Arg Ala Cys Trp Gln Trp Asn 
+CGC CCA GAA GGC TGC CCA GAG AAG GTC TAT GAA CTC ATG CGA GCA TGT TGG CAG TGG AAT 
+
+Pro Ser Asp Arg Pro Ser Phe Ala Glu Ile His Gln Ala Phe Glu Thr Met Phe Gln Glu 
+CCC TCT GAC CGG CCC TCC TTT GCT GAA ATC CAC CAA GCC TTT GAA ACA ATG TTC CAG GAA 
+
+Ser Ser Ile Ser Asp Glu Val Glu Lys Glu Leu Gly Lys Gln Gly Val Arg Gly Ala Val 
+TCC AGT ATC TCA GAC GAA GTG GAA AAG GAG CTG GGG AAA CAA GGC GTC CGT GGG GCT GTG 
+
+Ser Thr Leu Leu Gln Ala Pro Glu Leu Pro Thr Lys Thr Arg Thr Ser Arg Arg Ala Ala 
+AGT ACC TTG CTG CAG GCC CCA GAG CTG CCC ACC AAG ACG AGG ACC TCC AGG AGA GCT GCA 
+
+Glu His Arg Asp Thr Thr Asp Val Pro Glu Met Pro His Ser Lys Gly Gln Gly Glu Ser 
+GAG CAC AGA GAC ACC ACT GAC GTG CCT GAG ATG CCT CAC TCC AAG GGC CAG GGA GAG AGC 
+
+Asp Pro Leu Asp His Glu Pro Ala Val Ser Pro Leu Leu Pro Arg Lys Glu Arg Gly Pro 
+GAT CCT CTG GAC CAT GAG CCT GCC GTG TCT CCA TTG CTC CCT CGA AAA GAG CGA GGT CCC 
+
+Pro Glu Gly Gly Leu Asn Glu Asp Glu Arg Leu Leu Pro Lys Asp Lys Lys Thr Asn Leu 
+CCG GAG GGC GGC CTG AAT GAA GAT GAG CGC CTT CTC CCC AAA GAC AAA AAG ACC AAC TTG 
+
+Phe Ser Ala Leu Ile Lys Lys Lys Lys Lys Thr Ala Pro Thr Pro Pro Lys Arg Ser Ser 
+TTC AGC GCC TTG ATC AAG AAG AAG AAG AAG ACA GCC CCA ACC CCT CCC AAA CGC AGC AGC 
+
+Ser Phe Arg Glu Met Asp Gly Gln Pro Glu Arg Arg Gly Ala Gly Glu Glu Glu Gly Arg 
+TCC TTC CGG GAG ATG GAC GGC CAG CCG GAG CGC AGA GGG GCC GGC GAG GAA GAG GGC CGA 
+
+Asp Ile Ser Asn Gly Ala Leu Ala Phe Thr Pro Leu Asp Thr Ala Asp Pro Ala Lys Ser 
+GAC ATC AGC AAC GGG GCA CTG GCT TTC ACC CCC TTG GAC ACA GCT GAC CCA GCC AAG TCC 
+
+Pro Lys Pro Ser Asn Gly Ala Gly Val Pro Asn Gly Ala Leu Arg Glu Ser Gly Gly Ser 
+CCA AAG CCC AGC AAT GGG GCT GGG GTC CCC AAT GGA GCC CTC CGG GAG TCC GGG GGC TCA 
+
+Gly Phe Arg Ser Pro His Leu Trp Lys Lys Ser Ser Thr Leu Thr Ser Ser Arg Leu Ala 
+GGC TTC CGG TCT CCC CAC CTG TGG AAG AAG TCC AGC ACG CTG ACC AGC AGC CGC CTA GCC 
+
+Thr Gly Glu Glu Glu Gly Gly Gly Ser Ser Ser Lys Arg Phe Leu Arg Ser Cys Ser Val 
+ACC GGC GAG GAG GAG GGC GGT GGC AGC TCC AGC AAG CGC TTC CTG CGC TCT TGC TCC GTC 
+
+Ser Cys Val Pro His Gly Ala Lys Asp Thr Glu Trp Arg Ser Val Thr Leu Pro Arg Asp 
+TCC TGC GTT CCC CAT GGG GCC AAG GAC ACG GAG TGG AGG TCA GTC ACG CTG CCT CGG GAC 
+
+Leu Gln Ser Thr Gly Arg Gln Phe Asp Ser Ser Thr Phe Gly Gly His Lys Ser Glu Lys 
+TTG CAG TCC ACG GGA AGA CAG TTT GAC TCG TCC ACA TTT GGA GGG CAC AAA AGT GAG AAG 
+
+Pro Ala Leu Pro Arg Lys Arg Ala Gly Glu Asn Arg Ser Asp Gln Val Thr Arg Gly Thr 
+CCG GCT CTG CCT CGG AAG AGG GCA GGG GAG AAC AGG TCT GAC CAG GTG ACC CGA GGC ACA 
+
+Val Thr Pro Pro Pro Arg Leu Val Lys Lys Asn Glu Glu Ala Ala Asp Glu Val Phe Lys 
+GTA ACG CCT CCC CCC AGG CTG GTG AAA AAG AAT GAG GAA GCT GCT GAT GAG GTC TTC AAA 
+
+Asp Ile Met Glu Ser Ser Pro Gly Ser Ser Pro Pro Asn Leu Thr Pro Lys Pro Leu Arg 
+GAC ATC ATG GAG TCC AGC CCG GGC TCC AGC CCG CCC AAC CTG ACT CCA AAA CCC CTC CGG 
+
+Arg Gln Val Thr Val Ala Pro Ala Ser Gly Leu Pro His Lys Glu Glu Ala Trp Lys Gly 
+CGG CAG GTC ACC GTG GCC CCT GCC TCG GGC CTC CCC CAC AAG GAA GAA GCC TGG AAA GGC 
+
+Ser Ala Leu Gly Thr Pro Ala Ala Ala Glu Pro Val Thr Pro Thr Ser Lys Ala Gly Ser 
+AGT GCC TTA GGG ACC CCT GCT GCA GCT GAG CCA GTG ACC CCC ACC AGC AAA GCA GGC TCA 
+
+Gly Ala Pro Arg Gly Thr Ser Lys Gly Pro Ala Glu Glu Ser Arg Val Arg Arg His Lys 
+GGT GCA CCA AGG GGC ACC AGC AAG GGC CCC GCC GAG GAG TCC AGA GTG AGG AGG CAC AAG 
+
+His Ser Ser Glu Ser Pro Gly Arg Asp Lys Gly Lys Leu Ser Lys Leu Lys Pro Ala Pro 
+CAC TCC TCT GAG TCG CCA GGG AGG GAC AAG GGG AAA TTG TCC AAG CTC AAA CCT GCC CCG 
+
+Pro Pro Pro Pro Ala Ala Ser Ala Gly Lys Ala Gly Gly Lys Pro Ser Gln Arg Pro Gly 
+CCG CCC CCA CCA GCA GCC TCT GCA GGG AAG GCT GGA GGA AAG CCC TCG CAG AGG CCC GGC 
+
+Gln Glu Ala Ala Gly Glu Ala Val Leu Gly Ala Lys Thr Lys Ala Thr Ser Leu Val Asp 
+CAG GAG GCT GCC GGG GAG GCA GTC TTG GGC GCA AAG ACA AAA GCC ACG AGT CTG GTT GAT 
+
+Ala Val Asn Ser Asp Ala Ala Lys Pro Ser Gln Pro Ala Glu Gly Leu Lys Lys Pro Val 
+GCT GTG AAC AGT GAC GCT GCC AAG CCC AGC CAG CCG GCA GAG GGC CTC AAA AAG CCC GTG 
+
+Leu Pro Ala Thr Pro Lys Pro His Pro Ala Lys Pro Ser Gly Thr Pro Ile Ser Pro Ala 
+CTC CCG GCC ACT CCA AAG CCA CAC CCC GCC AAG CCG TCG GGG ACC CCC ATC AGC CCA GCC 
+
+Pro Val Pro Leu Ser Thr Leu Pro Ser Ala Ser Ser Ala Leu Ala Gly Asp Gln Pro Ser 
+CCC GTT CCC CTT TCC ACG TTG CCA TCA GCA TCC TCG GCC TTG GCA GGG GAC CAG CCG TCT 
+
+Ser Thr Ala Phe Ile Pro Leu Ile Ser Thr Arg Val Ser Leu Arg Lys Thr Arg Gln Pro 
+TCC ACT GCC TTC ATC CCT CTC ATA TCA ACC CGA GTG TCT CTT CGG AAA ACC CGC CAG CCT 
+
+Pro Glu Arg Ala Ser Gly Ala Ile Thr Lys Gly Val Val Leu Asp Ser Thr Glu Ala Leu 
+CCA GAG CGG GCC AGC GGC GCC ATC ACC AAG GGC GTG GTC TTG GAC AGC ACC GAG GCG CTG 
+
+Cys Leu Ala Ile Ser Gly Asn Ser Glu Gln Met Ala Ser His Ser Ala Val Leu Glu Ala 
+TGC CTC GCC ATC TCT GGG AAC TCC GAG CAG ATG GCC AGC CAC AGC GCA GTG CTG GAG GCC 
+
+Gly Lys Asn Leu Tyr Thr Phe Cys Val Ser Tyr Val Asp Ser Ile Gln Gln Met Arg Asn 
+GGC AAA AAC CTC TAC ACG TTC TGC GTG AGC TAT GTG GAT TCC ATC CAG CAA ATG AGG AAC 
+
+Lys Phe Ala Phe Arg Glu Ala Ile Asn Lys Leu Glu Asn Asn Leu Arg Glu Leu Gln Ile 
+AAG TTT GCC TTC CGA GAG GCC ATC AAC AAA CTG GAG AAT AAT CTC CGG GAG CTT CAG ATC 
+
+Cys Pro Ala Ser Ala Gly Ser Gly Pro Ala Ala Thr Gln Asp Phe Ser Lys Leu Leu Ser 
+TGC CCG GCG TCA GCA GGC AGT GGT CCG GCG GCC ACT CAG GAC TTC AGC AAG CTC CTC AGT 
+
+Ser Val Lys Glu Ile Ser Asp Ile Val Gln Arg End 
+TCG GTG AAG GAA ATC AGT GAC ATA GTG CAG AGG TAG 
+
+
