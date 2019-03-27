@@ -1,0 +1,174 @@
+---
+title: "MutBiasFig4C"
+author: "Scott Leighow"
+date: "February 7, 2019"
+output: html_document
+---
+
+## Figure 4B
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/Scott/Box Sync/MutBias/Figures/Figure4/Figure4C")
+library(ggplot2)
+library(DescTools)
+rm(list=ls())
+```
+
+## Parse Through Simulation Results
+
+```{r}
+
+alpha.df = read.csv("AlphaValues121618.csv",stringsAsFactors=F,header=T)
+vars = unique(alpha.df$genotype)[2:length(unique(alpha.df$genotype))]
+
+drugs = c("Imatinib","Dasatinib","Nilotinib","Bosutinib")
+# drugs = c("Imatinib","Nilotinib")
+bias = c(T,F)
+
+summary.df = expand.grid(var=vars,bias=bias,drug=drugs)
+summary.df = summary.df[,3:1]
+
+CI = 0.95 # confidence interval
+Zalph = qnorm(1-(1-CI)/2)
+method="sisonglaz" # wald
+
+files = list.files()
+for (i in 1:length(drugs)) {
+  drug = drugs[i]
+  for (j in 1:length(bias)) {
+    
+    biasstr = ifelse(bias[j],"WBias","WoBias")
+    
+    filename = grep(paste("LSCMutBias",drug,biasstr,"011619.csv",sep=""),files,value=T)
+    simout.df = read.csv(filename,header=F)
+    colnames(simout.df) = c("Cmax","Cmin","log.pop.treat","niter","varID")
+    
+    simout.df$var[simout.df$varID!=0] = vars[simout.df$varID[simout.df$varID!=0]]
+    simout.df$var[simout.df$var==0] = NA
+    
+    prev = table(simout.df$var)
+    prev = prev[vars]
+    names(prev) = vars
+    prev[is.na(prev)] = 0
+    
+    prev.est = MultinomCI(prev,conf.level=CI,method=method)
+    
+    df.row = summary.df$drug==drugs[i]&summary.df$bias==bias[j]
+    
+    summary.df$sim.pres[df.row] = sum(prev,na.rm=T)/nrow(simout.df)
+    summary.df$sim.prev[df.row] = prev
+    summary.df$sim.rel.prev[df.row] = prev.est[,"est"]
+    summary.df$sim.prev.lci[df.row] = prev.est[,"lwr.ci"]
+    summary.df$sim.prev.uci[df.row] = prev.est[,"upr.ci"]
+    summary.df$sim.rank[df.row] = rank(-prev)
+    
+  }
+}
+
+summary.df[is.na(summary.df)] = 0
+
+
+```
+
+
+## Imatinib Analysis
+
+```{r}
+
+imat.df = read.csv("Combined_data_frame_IC_Mutprob_abundance.csv")
+
+clin.prev = imat.df$Abundance_Sanger
+names(clin.prev) = imat.df$Compound
+clin.prev = clin.prev[vars]
+
+clin.prev.est = MultinomCI(clin.prev,conf.level=CI,method=method)
+clin.rel.prev = clin.prev.est[,"est"]
+clin.prev.lci = clin.prev.est[,"lwr.ci"]
+clin.prev.uci = clin.prev.est[,"upr.ci"]
+
+clin.rank = rank(-clin.prev)
+
+summary.df$clin.prev[summary.df$drug=="Imatinib"] = clin.prev
+summary.df$clin.rel.prev[summary.df$drug=="Imatinib"] = clin.rel.prev
+summary.df$clin.prev.lci[summary.df$drug=="Imatinib"] = clin.prev.lci
+summary.df$clin.prev.uci[summary.df$drug=="Imatinib"] = clin.prev.uci
+summary.df$clin.rank[summary.df$drug=="Imatinib"] = clin.rank
+
+# Best fit line
+
+fit.wbias = lm(sim.rel.prev~clin.rel.prev,data=summary.df[summary.df$drug=="Imatinib"&summary.df$bias==T,])
+m.wbias = fit.wbias$coefficients[2]
+b.wbias = fit.wbias$coefficients[1]
+
+fit.wobias = lm(sim.rel.prev~clin.rel.prev,data=summary.df[summary.df$drug=="Imatinib"&summary.df$bias==F,])
+m.wobias = fit.wobias$coefficients[2]
+b.wobias = fit.wobias$coefficients[1]
+
+```
+
+
+## Plot Results
+
+```{r}
+
+spear.wbias = cor(clin.prev,summary.df$sim.prev[summary.df$drug=="Imatinib"&summary.df$bias==T],method="spearman")
+pears.wbias = cor(clin.prev,summary.df$sim.prev[summary.df$drug=="Imatinib"&summary.df$bias==T],method="pearson")
+
+limWBias = 1.05*max(summary.df[summary.df$drug=="Imatinib"&summary.df$bias==T,c("clin.rel.prev","sim.rel.prev")])
+limWBias = 0.23
+
+ggplot(summary.df[summary.df$drug=="Imatinib"&summary.df$bias==T,],aes(x=clin.rel.prev,y=sim.rel.prev))+theme_bw()+
+  geom_abline(slope=1,color="gray75",size=2,linetype=2)+
+  geom_abline(slope=m.wbias,intercept=b.wbias,color="red",size=2)+
+  geom_point(size=5)+
+  # geom_segment(aes(xend=clin.rel.prev,yend=sim.prev.lci),arrow=arrow(angle=90,length=unit(0.25,"cm")),size=2)+
+  # geom_segment(aes(xend=clin.rel.prev,yend=sim.prev.uci),arrow=arrow(angle=90,length=unit(0.25,"cm")),size=2)+
+  # geom_segment(aes(xend=clin.prev.lci,yend=sim.rel.prev),arrow=arrow(angle=90,length=unit(0.25,"cm")),size=2)+
+  # geom_segment(aes(xend=clin.prev.uci,yend=sim.rel.prev),arrow=arrow(angle=90,length=unit(0.25,"cm")),size=2)+
+  xlab("Relative Prevalence: Clinically Observed")+ylab("Relative Prevalence: Model Predicted")+
+  ggtitle(paste("Prevalence With Mutation Bias"))+  #: Pearson rho = ",round(pears.wbias,2),sep=""))+
+  theme(plot.title=element_text(hjust=0.5,size=20,face="bold"),
+        axis.title=element_text(size=18,face="bold"),
+        axis.text=element_text(size=16,face="bold",color="black")
+        )+
+  xlim(0,limWBias)+ylim(0,limWBias)
+
+# ggsave("PrevWBias.pdf",width=6,height=6)
+
+spear.wobias = cor(clin.prev,summary.df$sim.prev[summary.df$drug=="Imatinib"&summary.df$bias==F],method="spearman")
+pears.wobias = cor(clin.prev,summary.df$sim.prev[summary.df$drug=="Imatinib"&summary.df$bias==F],method="pearson")
+
+
+limWoBias = 1.05*max(summary.df[summary.df$drug=="Imatinib"&summary.df$bias==F,c("clin.rel.prev","sim.rel.prev")])
+limWoBias = 0.23
+
+ggplot(summary.df[summary.df$drug=="Imatinib"&summary.df$bias==F,],aes(x=clin.rel.prev,y=sim.rel.prev))+theme_bw()+
+  geom_abline(slope=1,color="gray75",size=2,linetype=2)+
+  geom_abline(slope=m.wobias,intercept=b.wobias,color="red",size=2)+
+  geom_point(size=5)+
+  # geom_segment(aes(xend=clin.rel.prev,yend=sim.prev.lci),arrow=arrow(angle=90,length=unit(0.25,"cm")),size=2)+
+  # geom_segment(aes(xend=clin.rel.prev,yend=sim.prev.uci),arrow=arrow(angle=90,length=unit(0.25,"cm")),size=2)+
+  # geom_segment(aes(xend=clin.prev.lci,yend=sim.rel.prev),arrow=arrow(angle=90,length=unit(0.25,"cm")),size=2)+
+  # geom_segment(aes(xend=clin.prev.uci,yend=sim.rel.prev),arrow=arrow(angle=90,length=unit(0.25,"cm")),size=2)+
+  xlab("Relative Prevalence: Clinically Observed")+ylab("Relative Prevalence: Model Predicted")+
+  ggtitle(paste("Prevalence Without Mutation Bias"))+   #: Pearson rho = ",round(pears.wobias,2),sep=""))+
+  theme(plot.title=element_text(hjust=0.5,size=20,face="bold"),
+        axis.title=element_text(size=18,face="bold"),
+        axis.text=element_text(size=16,face="bold",color="black")
+  )+
+  xlim(0,limWoBias)+ylim(0,limWoBias)
+
+# ggsave("PrevWoBias.pdf",width=6,height=6)
+
+```
+
+## Resistance Prevalence
+
+```{r}
+
+unique(summary.df$sim.pres[summary.df$drug=="Imatinib"&summary.df$bias==T])
+unique(summary.df$sim.pres[summary.df$drug=="Nilotinib"&summary.df$bias==T])
+unique(summary.df$sim.pres[summary.df$drug=="Dasatinib"&summary.df$bias==T])
+
+```
