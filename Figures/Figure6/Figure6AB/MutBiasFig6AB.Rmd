@@ -1,0 +1,146 @@
+---
+title: "MutBiasFig5DE"
+author: "Scott Leighow"
+date: "February 7, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/Scott/Box Sync/MutBias/Figures/Figure5/Figure5DE/")
+library(ggplot2)
+```
+
+## Figure 5D: Maxitinib Resistance Profile
+
+```{r}
+
+rm(list=ls())
+
+imat.df = read.csv("Combined_data_frame_IC_Mutprob_abundance.csv")
+
+vars = imat.df$Compound
+var.probs = imat.df$Mutation.Probability
+sort.vars = as.character(vars[order(-var.probs)])
+
+maxitinib.df = expand.grid(genotype=c("WT",sort.vars),drug=c("K1","K2","K3","K15"))
+maxitinib.df$genotype = factor(maxitinib.df$genotype,levels=rev(c("WT",sort.vars)))
+maxitinib.df$resistant = T
+maxitinib.df$resistant[maxitinib.df$genotype=="WT"] = F
+maxitinib.df$resistant[maxitinib.df$drug=="K1"&maxitinib.df$genotype%in%sort.vars[1:5]] = F
+maxitinib.df$resistant[maxitinib.df$drug=="K2"&maxitinib.df$genotype%in%sort.vars[2:6]] = F
+maxitinib.df$resistant[maxitinib.df$drug=="K3"&maxitinib.df$genotype%in%sort.vars[3:7]] = F
+maxitinib.df$resistant[maxitinib.df$drug=="K15"&maxitinib.df$genotype%in%sort.vars[15:19]] = F
+
+# Add mutation bias data
+for (i in 1:nrow(imat.df)) {
+  
+  gen = imat.df$Compound[i]
+  
+  maxitinib.df$mut.prob[as.character(maxitinib.df$genotype)==gen] = imat.df$Mutation.Probability[i]/sum(imat.df$Mutation.Probability)
+
+  
+}
+
+maxitinib.df$mut.prob[maxitinib.df$resistant==F]=NA
+
+# ggplot(maxitinib.df,aes(x=drug,y=genotype))+theme_bw()+
+#   geom_raster(aes(fill=resistant))+
+#   scale_fill_manual(name="Phenotype",labels=c("Sensitive","Resistant"),values=c("light blue","red"))+
+#   xlab("Maxitinib Chemotype")+ylab("Genotype")+ggtitle("Maxitinib Resistance Profiles")+
+#   scale_x_discrete(labels=c("K1","K2","K3","K15"))+
+#   theme(
+#     plot.title=element_text(size=20,face="bold",hjust=0.5),
+#     axis.title=element_text(size=18,face="bold"),
+#     axis.text=element_text(size=14,face="bold",color="black"),
+#     legend.title.align=0.5,
+#     legend.text=element_text(size=12,face="bold"),
+#     legend.title=element_text(size=14,face="bold")
+#   )
+
+ggplot(maxitinib.df,aes(x=drug,y=genotype))+theme_bw()+
+  geom_raster(aes(fill=mut.prob))+
+  # scale_fill_manual(name="Phenotype",labels=c("Sensitive","Resistant"),values=c("light blue","red"))+
+    scale_fill_gradient(name="Mutational\nLiability",low="#F9C2C4",high="#EC2027",na.value="gray80")+
+  xlab("Maxitinib Chemotype")+ylab("Genotype")+ggtitle("Maxitinib Resistance Profiles")+
+  scale_x_discrete(labels=c("K1","K2","K3","K15"))+
+  theme(
+    plot.title=element_text(size=20,face="bold",hjust=0.5),
+    axis.title=element_text(size=18,face="bold"),
+    axis.text=element_text(size=14,face="bold",color="black"),
+    legend.title.align=0.5,
+    legend.text=element_text(size=12,face="bold"),
+    legend.title=element_text(size=14,face="bold")
+  )
+
+# ggsave("MutBiasFig5D.pdf",width=8,height=8)
+
+
+```
+
+
+## Figure 5E: Maxitinib Analysis
+
+```{r}
+
+rm(list=ls())
+
+maxitinib.df = read.csv("MaxitinibParameters012619.csv")
+probs = maxitinib.df$prob[2:nrow(maxitinib.df)]
+
+files = list.files()
+
+file.list = grep("MaxitinibK",files,value=T)
+
+null.sim = file.list[1]
+file.list = file.list[-1]
+
+summary.df = as.data.frame(matrix(nrow=length(file.list),ncol=3))
+colnames(summary.df) = c("K","pres","mut.liab")
+
+for (i in 1:length(file.list)) {
+  
+  sim.df = read.csv(file.list[i],header=F)
+  
+  K = as.numeric(substr(file.list[i],11,12))
+  pres = mean(sim.df[,3]!=0)
+  
+  sen.idx = i:(i+4)
+  mut.liab = sum(probs[-sen.idx])
+  
+  summary.df$K[K] = K
+  summary.df$pres[K] = pres
+  summary.df$mut.liab[K] = mut.liab
+  
+}
+
+sim.df = read.csv(null.sim,header=F)
+pres.null = mean(sim.df[,3]!=0)
+
+bar.col = "#f39c2d"
+line.col = "#EC2027"
+
+ggplot(summary.df,aes(x=K))+theme_bw()+
+  geom_hline(yintercept=1,size=1.5,color="gray70")+
+  geom_bar(stat="identity",aes(y=pres/pres.null,fill=pres/pres.null))+
+  geom_point(aes(y=mut.liab),size=5,color=line.col)+
+  geom_line(aes(y=mut.liab),size=2,color=line.col)+
+  xlab("Maxitinib Chemotype")+ylab("Resistance Incidence Relative to Imatinib")+
+  scale_x_continuous(breaks=c(1,8,15),labels=c("K1","K8","K15"))+
+  scale_y_continuous(sec.axis = sec_axis(~.,name="Resistance Mutational Liability"))+
+  scale_fill_gradient(low="#F8C391",high=bar.col)+
+  ggtitle("Evolution-Informed Drug Design")+
+  theme(
+    plot.title=element_text(hjust=0.5,size=22,face="bold"),
+    axis.title=element_text(size=18,face="bold"),
+    axis.text=element_text(size=16,face="bold",color="black"),
+    axis.title.y=element_text(color=bar.col),
+    axis.text.y=element_text(color=bar.col),
+    axis.title.y.right=element_text(color=line.col),
+    axis.text.y.right=element_text(color=line.col)
+  )+
+  guides(fill=F)
+
+# ggsave("MutBiasFig5E.pdf",width=8,height=6)
+
+```
