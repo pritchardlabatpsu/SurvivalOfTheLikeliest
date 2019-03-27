@@ -1,0 +1,129 @@
+---
+title: "Supplement1Figs"
+author: "Scott Leighow"
+date: "February 7, 2019"
+output: html_document
+---
+
+
+## Supplement 1: Analytic Solution to Probability Model
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+setwd("C:/Users/Scott/Box Sync/MutBias/Figures/SupplementaryAppendix1/")
+rm(list=ls())
+```
+
+
+## Cumulative Mutation Risk
+
+```{r}
+
+cum.df = read.csv("CumMutRisk.csv",header=F)
+colnames(cum.df) = c("time","sens","riskA","riskB")
+
+cum.df = cum.df[cum.df$sens>1,]
+
+Tdet = 8.04
+
+mcol = "#2e368f"
+
+ggplot(cum.df,aes(x=time/365))+theme_bw()+
+  geom_vline(xintercept=Tdet,color="gray75",size=1.5)+
+  geom_line(aes(y=log10(sens)/20),color="#2abafc",size=2,alpha=0.75)+
+  geom_line(aes(y=riskA),color=mcol,size=2)+
+  xlab("Time [years]")+ylab(expression(F["A"](t)))+
+  ggtitle("Cumulative Mutational Risk")+
+  scale_x_continuous(breaks=c(0,3,6,Tdet),labels=c("0","3","6","T"))+
+  scale_y_continuous(sec.axis = sec_axis(~.*20,name="Sensitive Population [cells]",
+                     breaks=c(0,2,4,6),labels=parse(text=c("0","10^2","10^4","10^6"))))+
+  theme(
+    plot.title=element_text(size=20,face="bold",hjust=0.5,color=mcol),
+    axis.title=element_text(size=16,face="bold"),
+    axis.title.y=element_text(color=mcol),
+    axis.title.y.right=element_text(color="#2abafc"),
+    axis.text=element_text(size=16),
+    axis.text.y=element_text(color=mcol),
+    axis.text.y.right=element_text(color="#2abafc"),
+    panel.grid.minor=element_blank()
+  )
+
+# ggsave("CumMutRisk.pdf",width=10,height=6)
+
+```
+
+
+## Instantaneous Mutation Risk
+
+```{r}
+
+inst.df = read.csv("InstMutRisk.csv",header=F)
+colnames(inst.df) = c("time","sens","riskA","riskB")
+
+inst.df = inst.df[inst.df$sens>1,]
+
+Tdet = 8.04
+
+mcol = "#2e368f"
+
+ggplot(inst.df,aes(x=time/365))+theme_bw()+
+  geom_vline(xintercept=Tdet,color="gray75",size=1.5)+
+  geom_line(aes(y=log10(sens)/1200),color="#2abafc",size=2,alpha=0.75)+
+  geom_line(aes(y=riskA),color=mcol,size=2)+
+  xlab("Time [years]")+ylab(expression("f*"["A"](t)))+
+  ggtitle(expression(T["mut,i"]~PDF~(Instantaneous~Mutational~Risk)))+
+  scale_x_continuous(breaks=c(0,3,6,Tdet),labels=c("0","3","6","T"))+
+  scale_y_continuous(sec.axis = sec_axis(~.*1200,name="Sensitive Population [cells]",
+                     breaks=c(0,2,4,6),labels=parse(text=c("0","10^2","10^4","10^6"))))+
+  theme(
+    plot.title=element_text(size=20,face="bold",hjust=0.5,color=mcol),
+    axis.title=element_text(size=16,face="bold"),
+    axis.title.y=element_text(color=mcol),
+    axis.title.y.right=element_text(color="#2abafc"),
+    axis.text=element_text(size=16),
+    axis.text.y=element_text(color=mcol),
+    axis.text.y.right=element_text(color="#2abafc"),
+    panel.grid.minor=element_blank()
+  )
+
+# ggsave("InstMutRisk.pdf",width=10,height=6)
+
+```
+
+
+## Integration Region
+
+```{r}
+
+rm(list=ls())
+
+Tm = 2.5
+DT = 0.75
+
+ggplot()+theme_bw()+
+  geom_ribbon(aes(ymin=c(0,0),ymax=c(0,2*Tm-DT),x=c(DT,2*Tm)),fill="gray75")+
+  geom_hline(yintercept=Tm)+
+  geom_vline(xintercept=Tm)+
+  geom_hline(yintercept=0)+
+  geom_vline(xintercept=0)+
+  geom_abline(slope=1,intercept=-DT)+
+  geom_segment(aes(x=Tm+DT,y=0,xend=Tm+DT,yend=0+Tm))+
+  geom_text(aes(label="D1"),x=2,y=0.75,size=10)+
+  geom_text(aes(label="D2"),x=2.85,y=0.75,size=10)+
+  geom_text(aes(label="D3"),x=4.25,y=0.75,size=10)+
+  geom_text(aes(label="D4"),x=4.25,y=3,size=10)+
+  scale_x_continuous(limits=c(0,2*Tm),breaks=c(0,DT,Tm,Tm+DT),labels=parse(text=c('0','DT','T','T+DT')))+
+  scale_y_continuous(limits=c(0,2*Tm),breaks=c(0,Tm),labels=c('0','T'))+
+  xlab(bquote(t['A']))+ylab(bquote(t['B']))+
+  theme(
+    axis.text = element_text(size=16,color='black'),
+    axis.title = element_text(size=16),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+# ggsave("Subintegral.pdf",width=6,height=6)
+
+
+```

@@ -1,0 +1,50 @@
+---
+title: "MutBiasSupplement2Figs"
+author: "Scott Leighow"
+date: "February 18, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/Scott/Box Sync/MutBias/Figures/SupplementaryAppendix2/")
+library(ggplot2)
+```
+
+## Pharmacokinetic Profile
+
+```{r}
+
+Cmax = 683
+Cmin = 297
+tpeak = 3/24
+tdose = 24/24
+
+time = seq(0,24,length.out = 50)/24
+
+a = 22.07
+b = 1.01
+x0 = 491
+y0 = Cmin
+
+conc = (a*x0/(a-b)+y0)*exp(-b*time)-a*x0/(a-b)*exp(-a*time)
+
+conc.df = data.frame(time=time,conc=conc)
+
+ggplot(conc.df,aes(x=time,y=conc))+theme_bw()+
+  geom_line(color="dark green",size=3)+
+  geom_segment(aes(x=0,xend=tdose,y=Cmin,yend=Cmin),size=2.5,linetype="dashed",color="gray75")+
+  geom_segment(aes(x=0,xend=tpeak,y=Cmax,yend=Cmax),size=2.5,linetype="dashed",color="gray75")+
+  geom_segment(aes(x=tpeak,xend=tpeak,y=0,yend=Cmax),size=2.5,linetype="dashed",color="gray75")+
+  xlab("Time [hours]")+ylab("Concentration [nM]")+
+  scale_x_continuous(breaks=c(0,tpeak,.5,1),labels=c("0","tpeak","12","24"))+
+  scale_y_continuous(breaks=c(0,Cmin,500,Cmax),labels=c("0","Cmin","500","Cmax"))+
+  theme(
+    axis.title=element_text(size=18,color="black",face="bold"),
+    axis.text=element_text(size=16,color="black",face="bold")
+  )
+
+# ggsave("PKprofile.pdf",width=8,height=6)
+
+```
+

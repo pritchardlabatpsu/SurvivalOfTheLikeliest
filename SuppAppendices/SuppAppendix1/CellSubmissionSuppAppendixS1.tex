@@ -1,0 +1,464 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{tikz,pgfplots}
+\usepackage[section]{placeins}
+\usepackage{biblatex}
+\pgfplotsset{width=10cm,compat=1.9}
+\usepgfplotslibrary{fillbetween}
+
+
+
+\title{Supplemental Appendix S1: \\
+\large Analytical Two-Allele Probability Model}
+\author{Liu and Leighow et al.}
+
+\begin{document}
+\maketitle
+
+
+\section{Introduction}
+
+Consider a population of pathogenic, asexual cells which expand prior to drug treatment and collapse during treatment.  During the lifetime of this population of cells, the initial sensitive population has the potential to seed resistant subclones which have a positive net growth rate in the presence of drug.  The population dynamics of a resistant clone depend on allele-specific parameters, in particular its mutational probability (i.e. the likelihood that the resistant clone will spawn) and its degree of resistance (i.e. the growth rate during treatment).
+
+We are interested in identifying the conditions for which mutation bias plays a significant role in determining the prevalence of a given mutation at the scale of patient populations.  To address this, we consider the simplest case of two distinct mutations that confer drug resistance (Allele A and Allele B).  Given their rarity and to simplify the analysis, we do not consider the potential for compound mutations.
+
+
+\subsection{Resistance and Mutational Probability Profiles}
+
+It is interesting to consider the case where there exists a trade-off between resistance and mutational probability.  We assign Allele A a high degree of resistance and low mutational probability; we assign the opposite profile for Allele B.  These profiles are summarized in \textbf{Appendix Table 1.1}.
+
+\begin{center}
+\textbf{Appendix Table 1.1}
+
+ \begin{tabular}{||c | c | c||} 
+ \hline
+   & Allele A & Allele B \\ [0.5ex] 
+ \hline\hline
+ Resistance & high & low \\ 
+ \hline
+ Mutational Probability & low & high \\
+ \hline
+\end{tabular}
+\end{center}
+  We then ask the question: which allele will drive relapse?  In other words, which is the first clone to reach clinical detection?  In identifying conditions where Allele B (the allele with a greater mutational probability but a lower degree of resistance) is more likely to be the dominant allele, we find parameter sets where we expect mutational probability to play a significant role in shaping distributions of specific amino acid mutations in clinical populations.
+
+
+\section{General Outcomes}
+
+Towards identifying which allele will drive relapse in a two-allele system, consider the four possible outcomes:
+
+\begin{center}
+\textbf{Appendix Table 1.2}
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\multirow{2}{*}{}}  & \multicolumn{2}{c|}{Allele A present?} \\ \cline{3-4} 
+\multicolumn{2}{|c|}{}                   & No                 & Yes               \\ \hline
+\multirow{2}{*}{Allele B present?} & No  & \textbf{Outcome 1}             & \textbf{Outcome 2}            \\ \cline{2-4} 
+                                   & Yes & \textbf{Outcome 3}             & \textbf{Outcome 4}            \\ \hline
+\end{tabular}
+\end{center}
+
+
+Here, we say an allele is present if its mutational event occurs during the lifetime of the sensitive population and the newly spawned clone escapes stochastic eradication (i.e. it eventually reaches clinical detection).  Thus, the results of each outcome are summarized as follows.
+
+\begin{description}
+\item{\textbf{Outcome 1}: Neither allele is present.}
+\item{\textbf{Outcome 2}: Allele A is fixed.}
+\item{\textbf{Outcome 3}: Allele B is fixed.}
+\item{\textbf{Outcome 4}: Both alleles are present.}
+\end{description}
+\parskip = \baselineskip
+\textbf{Outcome 4} can be further divided into two suboutcomes:
+\begin{description}
+\item{\textbf{Outcome 4.A}: Allele A reaches clinical detection first.}
+\item{\textbf{Outcome 4.B}: Allele B reaches clinical detection first.}
+\end{description}
+
+\parskip = \baselineskip
+Towards addressing our initial question, we see that:
+\begin{equation}
+\begin{split}
+P[\text{Allele} & \text{ A is dominant upon relapse}] = \\ &P[\textbf{Outcome 2}] + P[\textbf{Outcome 4.A}|\textbf{Outcome 4}]\cdot P[\textbf{Outcome 4}] \\
+P[\text{Allele} & \text{ B is dominant upon relapse}] = \\ &P[\textbf{Outcome 3}] + P[\textbf{Outcome 4.B}|\textbf{Outcome 4}]\cdot P[\textbf{Outcome 4}] \\
+\end{split}
+\end{equation}
+In the following analyses, we will derive these probabilities.
+
+\section{Probability of Mutation}
+
+Let us begin by considering the probabilities of each outcome.  Because the presence of each allele is independent of the other, it follows that:
+
+\begin{equation}
+\begin{split}
+P[\textbf{Outcome 1}] & = P[\text{Allele A is absent}] \cdot P[\text{Allele B is absent}] \\
+P[\textbf{Outcome 2}] & = P[\text{Allele A is present}] \cdot P[\text{Allele B is absent}] \\
+P[\textbf{Outcome 3}] & = P[\text{Allele A is absent}] \cdot P[\text{Allele B is present}] \\
+P[\textbf{Outcome 4}] & = P[\text{Allele A is present}] \cdot P[\text{Allele B is present}]
+\end{split}
+\end{equation}
+
+To find the probability that an allele is absent, let $N_i(t)$ be the number of mutational events generating the $i$th allele that occur on the time interval $(0,t]$.  The discrete random variable $N_i(t)$ can be modeled as a nonhomogenous Poisson process.  Thus, the probability that $k$ mutations occur on the interval $(0,t]$ is given by:
+\begin{equation}
+P[N_i(t)=k] = \frac{[\int_0^t \lambda_i(y) dy]^k}{k!} \exp\Bigg(-\int_0^t \lambda_i(y) dy\Bigg)
+\end{equation}
+where the hazard rate $\lambda_i(t)$ is the probability of a mutation to the $i$th allele occurring on the infinitesimal interval $(t,t+dt)$.  This hazard rate is a function of the size of the sensitive population $x_S(t)$ from which the resistant variant arises, and is given by:
+\begin{equation}
+\lambda_i(t) = x_S(t) b_S \mu \rho_i \frac{r_i}{b_i}
+\end{equation}
+Here, $b_S$ is the division rate of the sensitive population; $\mu$ is the probability that a resistance mutation occurs per division event of the sensitive population; $\rho_i$ is the probability of mutation to the $i$th allele given that a resistance mutation occurs.  The parameter $\rho_i$ is used to describe differences in allele-specific mutational probabilities.  Note that $\sum_i \rho_i = 1$.  We multiply by the allele-specific survival probability $r_i/b_i$ (previously derived by Athreya and Ney (2004) \cite{1}) to consider only mutation events where the newly spawned clone escapes stochastic eradication.  The parameters $r_i$ and $b_i$ are the net growth rate and division rate of the $i$th resistant population, respectively.
+
+The size of the sensitive population can be modeled assuming exponential growth prior to treatment and exponential decay during treatment.  If treatment starts at time $T$, then the number of sensitive cells $x_S(t)$ is:
+\begin{equation}
+x_S(t) = \begin{cases} 
+          \frac{b_S}{r_S}e^{r_St} & 0\leq t < T \\
+          Me^{r_S'(t-T)} & T\leq t
+       \end{cases}
+\end{equation}
+Here, $r_S$ is the net growth rate of sensitive cells prior to treatment, $r_S'$ is their net growth rate during treatment ($r_S'<0$) and $M$ is the size of the sensitive population at the start of treatment (i.e. the detection size).
+
+The time to detection $T$ can be related to $M$ by solving the equation $\frac{b_S}{r_S}e^{r_ST}=M$, yielding:
+\begin{equation}
+T=\frac{1}{r_S}\ln\Big(\frac{Mr_S}{b_S}\Big)
+\end{equation}
+Substituting equations (4) and (5) into (3) and choosing $k=0$ events, we arrive at an expression $S_i(t)$ for the probability that a mutation to the $i$th allele has not occurred by time $t$.
+\begin{equation}
+S_i(t)=P[N_i(t)=0]  = \begin{cases} 
+          \exp\Big(-\frac{b_S^2 r_i \mu \rho_i}{r_S b_i}\int_0^t e^{r_S y}dy\Big) & 0\leq t < T \\
+          \exp\Big(-\frac{b_S^2 r_i \mu \rho_i}{r_S b_i}\int_0^T e^{r_S y}dy - \frac{M b_S r_i \mu \rho_i}{b_i'}e^{-r_S' T}\int_T^t e^{r_S'y}dy\Big) & T\leq t
+       \end{cases}
+\end{equation}
+
+Let $\alpha_i = \frac{b_S^2 r_i \mu \rho_i}{r_S b_i}$ and $\beta_i = \frac{M b_S r_i \mu \rho_i}{b_i'}e^{-r_S' T}$.  Solving the integrals, we can simplify equation (7) to:
+\begin{equation}
+S_i(t)= \begin{cases} 
+          \exp\Big(-\frac{\alpha_i}{r_S} (e^{r_S t}-1)\Big) & 0\leq t < T \\
+          \exp\Big(-\frac{\alpha_i}{r_S} (e^{r_S T}-1) - \frac{\beta_i}{r_S'} (e^{r_S't}-e^{r_S'T})\Big) & T\leq t
+       \end{cases}
+\end{equation}
+
+If we define $\eta_i = e^{\alpha_i /r_S}$ and $\nu_i = \eta_i \exp[\frac{-\alpha_i}{r_S} e^{r_S T}+\frac{\beta_i}{r_S'}e^{r_S' T}]$, $S_i(t)$ can be further simplified: 
+\begin{equation}
+S_i(t)= \begin{cases} 
+		\eta_i \exp\Big(\frac{-\alpha_i}{r_S} e^{r_S t}\Big) & 0\leq t < T \\
+		\nu_i \exp\Big(\frac{-\beta_i}{r_S'} e^{r_S' t}\Big) & T\leq t
+       \end{cases}
+\end{equation}
+
+
+The complement of $S_i(t)$, $F_i(t)=1-S_i(t)$, gives the cumulative mutational risk, i.e. the probability that at least one mutation \textit{has} occurred by time $t$.  An example trajectory of $F_i(t)$ is shown in \textbf{Appendix Figure 1.1}.
+
+\begin{figure}
+\includegraphics[width=0.75\textwidth]{CumMutRisk}
+\centering
+\\
+\textbf{Appendix Figure 1.1}: $F_i(t)$ for $b_S = b_i = 0.0088$ /day, $r_S = r_i = 0.0062$ /day, $r_S' = -0.0329$ /day, $r_i' = 0.0060$ /day, $\mu = 4\times10^{-8}$ /division, $\rho_i = 0.03$, and $M = 10^8$ cells. Growth parameters from estimates on leukemic cell dynamics reported by Fassoni et al (2018) \cite{2} given a turnover rate of 0.3 (estimate from Komarova and Wodarz (2005) \cite{3}). Resistance allele-specific parameters chosen to match E255V. Mutation rate from Michor et al (2005) \cite{4}.
+\end{figure}
+
+\FloatBarrier
+
+Recalling that $r_S'<0$, the probability that no mutation occurs ($S_i(\infty)$) or at least one mutation occurs ($F_i(\infty)$) during the lifetime of the tumor is given by evaluating equation (9) for $t \xrightarrow{} \infty$:
+\begin{equation}
+\begin{split}
+S_i(\infty) &= \nu_i \\
+F_i(\infty) &= 1-S_i(\infty) = 1- \nu_i
+\end{split}
+\end{equation}
+This is a generalization of a result previously obtained by Bozic et al (2013) \cite{5}.
+
+This gives us expressions for the probabilities of the four outcomes outlined in \textbf{Appendix Table 1.1}:
+\begin{equation}
+\begin{split}
+P[\textbf{Outcome 1}] &= S_A(\infty)\cdot S_B(\infty) = \nu_A \cdot \nu_B \\
+P[\textbf{Outcome 2}] &= F_A(\infty)\cdot S_B(\infty) = (1-\nu_A) \cdot \nu_B \\
+P[\textbf{Outcome 3}] &= S_A(\infty)\cdot F_B(\infty) = \nu_A \cdot (1-\nu_B) \\
+P[\textbf{Outcome 4}] &= F_A(\infty)\cdot F_B(\infty) = (1-\nu_A) \cdot (1 - \nu_B)
+\end{split}
+\end{equation}
+
+\section{Outcome 4: Competition}
+
+We now turn our attention to \textbf{Outcome 4}, where both alleles are present.  Since we are interested in identifying which allele drives relapse, we ask the question: which clone will reach clinical detection first?  The first resistant subclone to reach clinical detection determines the time scale for relapse, retreatment, and patient survival, and thus has greater immediate clinical significance than a minor subclone.  Here, we assume clinical detection of the resistant clone occurs at the same size as for the primary sensitive tumor, i.e. $M$.
+
+We see that
+\begin{equation}
+\begin{split}
+P[\textbf{Outcome 4.A}] = P[T_{det,A} < T_{det,B}] \\
+P[\textbf{Outcome 4.B}] = P[T_{det,B} < T_{det,A}]
+\end{split}
+\end{equation}
+where $T_{det,i}$ is the time to detection of the $i$th allele (i.e. the time for the $i$th allele to reach detection size $M$).  We focus on finding an expression for the probability of \textbf{Outcome 4.B}, since the probability of \textbf{Outcome 4.A} is easily found using $P[$\textbf{Outcome 4.A}$|$\textbf{Outcome 4}$] = 1 - P[$\textbf{Outcome 4.B}$|$\textbf{Outcome 4}$]$.
+
+If $T_{mut,i}$ is the time to the first mutational event of the $i$th allele (given there is one sensitive cell at $t=0$) and $T_{og,i}$ is the time to outgrowth for the newly spawned clone of the $i$th allele, then
+\begin{equation}
+T_{det,i} = T_{mut,i} + T_{og,i}
+\end{equation}
+
+For Alleles A and B, we might expect a timeline that resembles:
+\begin{center}
+\includegraphics[width=0.75\textwidth]{TwoAlleleTimeline}
+\end{center}
+
+We expect Allele A to grow out faster (i.e. $T_{og,A} < T_{og,B}$) because it is more resistant and thus has a faster growth rate in the presence of drug.  However, this does not necessarily mean that it will reach clinical detection first.  We see that if an Allele B clone spawns early enough, it will be the dominant allele upon relapse.  This is true if $T_{og,B}-T_{og,A} < T_{mut,A}-T_{mut,B}$.  Thus,
+\begin{equation}
+P[\mathbf{Outcome\:4.B}] = P[T_{det,B} < T_{det,A}] = P[\Delta T_{og} < T_{mut,A} - T_{mut_B}]
+\end{equation}
+where $\Delta T_{og} = T_{og,B}-T_{og,A}$.
+
+Because we consider the variation in $T_{og,i}$ to be very small compared to $T_{mut,i}$, we treat $\Delta T_{og}$ as a deterministic variable.  Its value can be calculated using resistance allele-specific variations of equation (6):
+\begin{equation}
+\Delta T_{og} = T_{og,B}-T_{og,A} = \frac{1}{r_B'}\ln\Big(\frac{Mr_B'}{b_B}\Big) - \frac{1}{r_A'}\ln\Big(\frac{Mr_A'}{b_A}\Big)
+\end{equation}
+
+From here on, we abbreviate times to mutation $T_{mut,A}$ and $T_{mut,B}$ to $T_A$ and $T_B$, respectively.  To obtain a solution for the right-hand expression in equation (14), we find the probability that the difference that these two random variables exceeds a threshold value, $\Delta T_{og}$.  The probability that two random variables will take on values on a two-dimensional interval is the integral of their joint probability density function over that interval.
+\begin{equation}
+P[\Delta T_{og} < T_{A} - T_{B}] = \iint_D f_{A,B}^*(t_{A},t_{B})dA
+\end{equation}
+Here, $f_{A,B}^*(t_{A},t_{B})$ is the conditional joint probability density function for $T_{A}$ and $T_{B}$, and $D$ is the region in the first quadrant (where $f_{A,B}^*$ takes on nonzero values) bounded above by the line $t_{B} = t_{A}-\Delta T_{og}$.  We consider the \textit{conditional} joint probability density function because we are concerned with \textbf{Outcome 4}, where both alleles are present.
+
+Because $T_{A}$ and $T_{B}$ are independent random variables, their joint conditional probability density function is given by the product of their individual PDFs:
+\begin{equation}
+f_{A,B}^*(t_{A},t_{B}) = f_{A}^*(t_{A}) \cdot  f_B^*(t_{B})
+\end{equation}
+
+The probability density function for $T_i$, $f_i(t_i)$, gives the probability that a mutational event occurs on the interval $(t_i,t_i+dt_i)$.  It is given by the derivative of the cumulative density function $f_i(t_i) = \frac{d}{dt}F_i(t_i)$.  Therefore,  
+\begin{equation}
+f_i(t_i)=\frac{d}{dt}F_i(t_i)=  \begin{cases}
+		\eta_i \alpha_i e^{r_S t_i} \exp[\frac{-\alpha_i}{r_S} e^{r_S t_i}] & 0 \leq t_i < T \\
+		\nu_i \beta_i e^{r_S' t_i} \exp[\frac{-\beta_i}{r_S'} e^{r_S' t_i}] & T \leq t_i
+       \end{cases}
+\end{equation}
+To determine the \textit{conditional} probability density function $f_i^*(t_i)$, we divide $f_i(t_i)$ by the probability that the $i$th allele \textit{will} spawn.  From equation (10), we have:
+\begin{equation}
+f_i^*(t_i) = \frac{f_i(t_i)}{F_i(\infty)}=\begin{cases}
+		\frac{\eta_i \alpha_i}{1-\nu_i} e^{r_S t_i} \exp[\frac{-\alpha_i}{r_S} e^{r_S t_i}] & 0 \leq t_i < T \\
+		\frac{\nu_i \beta_i}{1-\nu_i} e^{r_S' t_i} \exp[\frac{-\beta_i}{r_S'} e^{r_S' t_i}] & T \leq t_i
+       \end{cases}
+\end{equation}
+which is the conditional probability density function of $T_{i}$ given that at least one mutational event to the $i$th allele eventually takes place.  An example plot of $f_i^*(t_{i})$ is shown in \textbf{Appendix Figure 1.2}.
+
+\begin{figure}
+\includegraphics[width=0.75\textwidth]{InstMutRisk}
+\centering
+\\
+\textbf{Appendix Figure 1.2}: Instantaneous mutational risk, conditioned on the mutational event eventually occurring.  The same parameters were used as in \textbf{Appendix Figure 1.1}.
+\end{figure}
+\FloatBarrier
+
+From equations (17) and (19), we arrive at the formal conditional joint probability density function:
+
+
+\begin{equation}
+f_{A,B}^*(t_A,t_B)=\begin{cases}
+		C_1\cdot e^{r_S t_A} \exp(\frac{-\alpha_A}{r_S} e^{r_S t_A}) \cdot e^{r_S t_B} \exp(\frac{-\alpha_B}{r_S} e^{r_S t_B}) & 0\leq t_A,t_B<T \\
+		C_2\cdot e^{r_S t_A} \exp(\frac{-\alpha_A}{r_S} e^{r_S t_A}) \cdot e^{r_S' t_B} \exp(\frac{-\beta_B}{r_S'} e^{r_S' t_B}) & 0\leq t_A<T \leq t_B \\
+		C_3\cdot e^{r_S' t_A} \exp(\frac{-\beta_A}{r_S'} e^{r_S' t_A}) \cdot e^{r_S t_B} \exp(\frac{-\alpha_B}{r_S} e^{r_S t_B}) & 0\leq t_B<T \leq t_A \\
+		C_4\cdot e^{r_S' t_A} \exp(\frac{-\beta_A}{r_S'} e^{r_S' t_A}) \cdot e^{r_S' t_B} \exp(\frac{-\beta_B}{r_S'} e^{r_S' t_B}) & T\leq t_A,t_B \\ 
+       \end{cases}
+\end{equation}
+
+The simplifying constants $C_j$ are defined as follows:
+\begin{equation}
+\begin{split}
+C_1 &= \frac{\alpha_A \eta_A}{1-\nu_A}\frac{\alpha_B \eta_B}{1-\nu_B} \\
+C_2 &= \frac{\alpha_A \eta_A}{1-\nu_A}\frac{\beta_B \nu_B}{1-\nu_B} \\
+C_3 &= \frac{\beta_A \nu_A}{1-\nu_A}\frac{\alpha_B \eta_B}{1-\nu_B} \\
+C_4 &= \frac{\beta_A \nu_A}{1-\nu_A}\frac{\beta_B \nu_B}{1-\nu_B}
+\end{split}
+\end{equation}
+
+An example joint conditional PDF $f_{A,B}^*(t_{A},t_{B})$ is shown in \textbf{Appendix Figure 1.3}.
+
+\begin{figure}
+\includegraphics[width=0.75\textwidth]{JointPDF1}
+\includegraphics[width=0.75\textwidth]{JointPDF2}
+\centering
+\\
+\textbf{Appendix Figure 1.3}: Joint conditional PDF of $T_{A}$ and $T_{B}$.  For $T_{A}$, the same parameters were used as in \textbf{Appendix Figure 1.3} (E255V).  For $T_{B}$, $\rho_B = 0.97$ and $r_B' = 0.0042$ to match parameters for E255K.
+\end{figure}
+\FloatBarrier
+
+Note that $f_{A,B}^*(t_{A},t_{B})$ is a piecewise function with four subdomains.  Thus, when evaluating the integral in equation (16), it is necessary to separate it into appropriate subintegrals.  The choice of subintegral and their associated limits of integration depend on the value of $\Delta T_{og}$.  From here on, we abbreviate $\Delta T_{og}$ to $\Delta T$.  Given our assumption that Allele A is more resistant than Allele B, $\Delta T = T_{og,B} - T_{og,A}$ must be positive. Consider the two cases:
+\begin{description}
+\item{\textbf{Case 1}: $0 \leq \Delta T < T$}
+\item{\textbf{Case 2}: $T \leq \Delta T$}
+\end{description}
+We begin with \textbf{Case 1}.
+
+\begin{center}
+\includegraphics[width=0.75\textwidth]{Subintegral}
+\centering
+\\
+\textbf{Appendix Figure 1.4}: $t_A$-$t_B$ plane for \textbf{Case 1}: $0 \leq \Delta T < T$.  The shaded area represents the region where the condition $\Delta T < T_A - T_B$ (equation (16)) is met.
+\end{center}
+
+The region of integration is divided into four subregions in the $t_A$-$t_B$ plane:
+\begin{equation}
+\iint_D f^* dA = \iint_{D_1} f^* dA + \iint_{D_2} f^* dA + \iint_{D_3} f^* dA + \iint_{D_4} f^* dA
+\end{equation}
+
+We now take the integral for each individual subregion.  For $D_1$ we have:
+\begin{equation}
+\begin{split}
+\iint_{D_1} & f^* dA = C_1 \int_{\Delta T}^T e^{r_S t_A} \exp(-\frac{\alpha_A}{r_S} e^{r_S t_A}) \int_0^{t_A - \Delta T} e^{r_S t_B} \exp(-\frac{\alpha_B}{r_S} e^{r_S t_B}) dt_B dt_A \\
+&= -\frac{C_1}{\alpha_B} \int_{\Delta T}^T e^{r_S t_A} \exp(-\frac{\alpha_A}{r_S} e^{r_S t_A}) \Big[\exp(-\frac{\alpha_B}{r_S} e^{-r_S \Delta T} e^{r_S t_A)}) - \exp(-\frac{\alpha_B}{r_S})\Big] dt_A \\
+& = -\frac{C_1}{\alpha_B} \int_{\Delta T}^T e^{r_S t_A} \exp\Big((-\frac{1}{r_S}(\alpha_A + \alpha_B e^{-r_S \Delta T}) e^{r_S t_A}\Big) dt_A +\\
+& \frac{C_1}{\alpha_B} e^{-\alpha_B/r_S} \int_{\Delta T}^T e^{r_S t_A} \exp(-\frac{\alpha_A}{r_S} e^{r_S t_A}) dt_A \\
+&= \frac{C_1}{\alpha_B(\alpha_A + \alpha_B e^{-r_S \Delta T})} \Big[\exp\Big(-\frac{e^{r_S T}}{r_S} (\alpha_A + \alpha_B e^{-r_S \Delta T})\Big) - \exp\Big(-\frac{e^{r_S \Delta T}}{r_S} (\alpha_A + \alpha_B e^{-r_S \Delta T})\Big)\Big] - \\
+&\frac{C_1}{\alpha_A \alpha_B} e^{-\alpha_B/r_S} \Big[\exp(-\frac{\alpha_A}{r_S} e^{r_S T}) - \exp(-\frac{\alpha_A}{r_S} e^{r_S \Delta T})\Big] 
+\end{split}
+\end{equation}
+
+For $D_2$:
+\begin{equation}
+\begin{split}
+\iint_{D_2} & f^* dA = C_3\int_T^{T+\Delta T} e^{r_S' t_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S' t_A}) \int_0^{t_A-\Delta T} e^{r_S t_B} \exp(-\frac{\alpha_B}{r_S} e^{r_S t_B}) dt_B dt_A \\
+&= -\frac{C_3}{\alpha_B} \int_T^{T+\Delta T} e^{r_S't_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S' t_A})\cdot \Big[\exp(-\frac{\alpha_B}{r_S} e^{-r_S \Delta T} e^{r_S t_A)}) - \exp(-\frac{\alpha_B}{r_S})\Big]dt_A \\
+& =-\frac{C_3}{\alpha_B} \int_T^{T+\Delta T} e^{r_S' t_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S't_A}) \exp(-\frac{\alpha_B}{r_S} e^{-r_S \Delta T} e^{r_S t_A}) dt_A +\\
+&\frac{C_3}{\alpha_B} e^{-\alpha_B/r_S}\int_T^{T+\Delta T} e^{r_S' t_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S' t_A}) dt_A
+\end{split}
+\end{equation}
+
+The second integral in the last form of equation (24) has a straightforward solution: 
+\begin{equation}
+\begin{split}
+\frac{C_3}{\alpha_B} e^{-\alpha_B/r_S}\int_T^{T+\Delta T} & e^{r_S' t_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S' t_A}) dt_A =\\
+& -\frac{C_3}{\beta_A \alpha_B} e^{-\alpha_B/r_S} \Big[\exp(-\frac{\beta_A}{r_S'} e^{r_S' (T + \Delta T)}) - \exp( -\frac{\beta_A}{r_S'} e^{r_S' T})\Big]
+\end{split}
+\end{equation}
+
+However, the first integral in the last form of equation (24) requires more analysis.  Let $u = e^{r_S' t_A}$, $du = r_S' e^{r_S' t_A} dt_A$, $u_1 = e^{r_S' T}$, and $u_2 = e^{r_S'(T+\Delta T)}$.  Now, using the power series for exponential functions:
+\begin{equation}
+\begin{split}
+-\frac{C_3}{\alpha_B} & \int_T^{T+\Delta T} e^{r_S' t_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S't_A}) \exp(-\frac{\alpha_B}{r_S} e^{-r_S \Delta T} e^{r_S t_A}) dt_A\\
+& = -\frac{C_3}{\alpha_B r_S'}\int_{u_1}^{u_2} \exp(-\frac{\beta_A}{r_S'}u) \exp(-\frac{\alpha_B}{r_S} e^{-r_S \Delta T} u^{r_S/r_S'})du \\
+& = -\frac{C_3}{\alpha_B r_S'} \int_{u_1}^{u_2} \sum_{k=0}^{\infty} \frac{(-u\beta_A/r_S')^k}{k!} \exp(-\frac{\alpha_B}{r_S} e^{-r_S \Delta T} u^{r_S/r_S'}) du \\
+& = -\frac{C_3}{\alpha_B r_S'} \sum_{k=0}^{\infty} \frac{(-\beta_A/r_S')^k}{k!} \int_{u_1}^{u_2} \exp(-\frac{\alpha_B}{r_S} e^{-r_S \Delta T} u^{r_S/r_S'})u^k du
+\end{split}
+\end{equation}
+
+Let $v = \frac{\alpha_B}{r_S} e^{-r_S \Delta T} u^{r_S/r_S'}$, $dv = \frac{\alpha_B}{r_S'} e^{-r_S \Delta T} u^{(r_S/r_S' - 1)} du$, $v_1 = \frac{\alpha_B}{r_S} e^{r_S (T-\Delta T)}$ and $v_2 = \frac{\alpha_B}{r_S} e^{r_S T}$.  Solving for $u$ and $du$, we have $u=(\frac{r_S}{\alpha_B} e^{r_S \Delta T} v)^{r_S'/r_S}$ and $du = \frac{r_S'}{r_S}(\frac{r_S}{\alpha_B} e^{r_S \Delta T})^{r_S'/r_S} v^{(r_S'/r_S-1)}dv$.  Now,
+\begin{equation}
+\begin{split}
+-\frac{C_3}{\alpha_B} & \int_T^{T+\Delta T} e^{r_S' t_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S't_A}) \exp(-\frac{\alpha_B}{r_S} e^{-r_S \Delta T} e^{r_S t_A}) dt_A\\
+& = -\frac{C_3}{\alpha_B r_S'} \sum_{k=0}^{\infty} \frac{(-\beta_A/r_S')^k}{k!} \int_{v_1}^{v_2} e^{-v} (\frac{r_S}{\alpha_B} e^{r_S \Delta T} v)^{k r_S'/r_S} \cdot \frac{r_S'}{r_S} (\frac{r_S}{\alpha_B} e^{r_S \Delta T})^{r_S'/r_S} v^{r_S'/r_S-1} dv \\
+& = -\frac{C_3}{\alpha_B r_S} (\frac{r_S}{\alpha_B} e^{r_S \Delta T})^{r_S'/r_S} \sum_{k=0}^{\infty} \frac{(-\beta_A/r_S')^k}{k!} (\frac{r_S}{\alpha_B} e^{r_S \Delta T})^{k r_S'/r_S} \int_{v_1}^{v_2} e^{-v} v^{(k r_S'/r_S + r_S'/r_S -1)} dv
+\end{split}
+\end{equation}
+
+Finally, using the integral definition of the lower incomplete gamma function $\gamma(a,x) = \int_0^x t^{a-1} e^{-t} dt$, we arrive at an asymptotic solution for this integral:
+\begin{equation}
+\begin{split}
+-\frac{C_3}{\alpha_B} & \int_T^{T+\Delta T} e^{r_S' t_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S't_A}) \exp(-\frac{\alpha_B}{r_S} e^{-r_S \Delta T} e^{r_S t_A}) dt_A\\
+& = K \sum_{k=0}^{\infty} \Bigg\{\frac{(-\beta_A/r_S')^k}{k!} (\frac{r_S}{\alpha_B}e^{r_S \Delta T})^{k r_S'/r_S} \cdot \\
+& \Big[\gamma\big(\frac{r_S'}{r_S}(k+1),\frac{\alpha_B}{r_S} e^{r_S T}\big) - \gamma\big(\frac{r_S'}{r_S}(k+1),\frac{\alpha_B}{r_S} e^{r_S (T-\Delta T)}\big)\Big]\Bigg\}
+\end{split}
+\end{equation}
+where $K = -\frac{C_3}{\alpha_B r_S} (\frac{r_S}{\alpha_B} e^{r_S \Delta T})^{r_S'/r_S} $.  Given that the error bound on the series in equation (28) is the $(k+1)$th term of the series, we can evaluate the integral to a desired degree of precision.
+
+For $D_3$:
+\begin{equation}
+\begin{split}
+\iint_{D_3} & f^* dA = C_3 \int_{T+\Delta T}^{\infty} e^{r_S' t_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S' t_A})dt_A \int_0^T e^{r_S t_B} \exp(-\frac{\alpha_B}{r_S} e^{r_S t_B}) dt_B\\
+&= \frac{C_3}{\beta_A \alpha_B} \Big[1-\exp(-\frac{\beta_A}{r_S'} e^{r_S' (T+\Delta T)})\Big]\cdot \Big[\exp(-\frac{\alpha_B}{r_S} e^{r_S T}) - \exp(-\frac{\alpha_B}{r_S})\Big]
+\end{split}
+\end{equation}
+
+For $D_4$:
+\begin{equation}
+\begin{split}
+\iint_{D_4} & f^* dA = C_4 \int_{T+\Delta T}^{\infty} e^{r_S' t_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S' t_A})\int_T^{t_A-\Delta T} e^{r_S' t_B} \exp(-\frac{\beta_B}{r_S'} e^{r_S' t_B}) dt_B dt_A \\
+& = -\frac{C_4}{\beta_B} \int_{T+\Delta T}^{\infty} e^{r_S' t_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S' t_A}) [\exp(-\frac{\beta_B}{r_S'} e^{-r_S' \Delta T} e^{r_S' t_A }) - \exp(-\frac{\beta_B}{r_S'} e^{r_S' T})] dt_A \\
+& = -\frac{C_4}{\beta_B} \int_{T+\Delta T}^{\infty} e^{r_S' t_A} \exp\Big(-\frac{e^{r_S' t_A}}{r_S'} (\beta_A+\beta_B e^{-r_S' \Delta T}) \Big) dt_A + \\
+& \frac{C_4}{\beta_B} \exp(-\frac{\beta_B}{r_S'} e^{r_S' T}) \int_{T+\Delta T}^{\infty} e^{r_S' t_A} \exp(-\frac{\beta_A}{r_S'} e^{r_S' t_A}) dt_A\\
+& = \frac{C_4}{\beta_B(\beta_A + \beta_B e^{-r_S' \Delta T})}\Big[1 - \exp\Big(-\frac{e^{r_S' (T+\Delta T)}}{r_S'} (\beta_A - \beta_B e^{-r_S' \Delta T}) \Big)\Big]- \\
+& \frac{C_4}{\beta_A \beta_B} \exp(-\frac{\beta_B}{r_S'} e^{r_S' T}) \Big[1 - \exp(-\frac{\beta_A}{r_S'} e^{r_S' (T+\Delta T)})\Big]
+\end{split}
+\end{equation}
+
+Thus, the full expression for equation (22) is:
+\begin{equation}
+\begin{split}
+\iint_D & f^*dA = \frac{C_1}{\alpha_B(\alpha_A + \alpha_B e^{-r_S \Delta T})} \Big[\exp\Big(-\frac{e^{r_S T}}{r_S} (\alpha_A + \alpha_B e^{-r_S \Delta T})\Big) - \\
+& \exp\Big(-\frac{e^{r_S \Delta T}}{r_S} (\alpha_A + \alpha_B e^{-r_S \Delta T})\Big)\Big] - \\
+&\frac{C_1}{\alpha_A \alpha_B} e^{-\alpha_B/r_S} \Big[\exp(-\frac{\alpha_A}{r_S} e^{r_S T}) - \exp(-\frac{\alpha_A}{r_S} e^{r_S \Delta T})\Big] + \\
+& K \sum_{k=0}^{\infty} \Bigg\{\frac{(-\beta_A/r_S')^k}{k!} (\frac{r_S}{\alpha_B}e^{r_S \Delta T})^{k r_S'/r_S} \cdot \\
+& \Big[\gamma\big(\frac{r_S'}{r_S}(k+1),\frac{\alpha_B}{r_S} e^{r_S T}\big) - \gamma\big(\frac{r_S'}{r_S}(k+1),\frac{\alpha_B}{r_S} e^{r_S (T-\Delta T)}\big)\Big]\Bigg\} - \\
+& \frac{C_3}{\beta_A \alpha_B} e^{-\alpha_B/r_S} \Big[\exp(-\frac{\beta_A}{r_S'} e^{r_S' (T + \Delta T)}) - \exp( -\frac{\beta_A}{r_S'} e^{r_S' T})\Big] + \\
+& \frac{C_3}{\beta_A \alpha_B} \Big[1-\exp(-\frac{\beta_A}{r_S'} e^{r_S' (T+\Delta T)})\Big]\cdot \Big[\exp(-\frac{\alpha_B}{r_S} e^{r_S T}) - \exp(-\frac{\alpha_B}{r_S})\Big] + \\
+& \frac{C_4}{\beta_B(\beta_A + \beta_B e^{-r_S \Delta T})}\Big[1 - \exp\Big(-\frac{e^{r_S' (T+\Delta T)}}{r_S'} (\beta_A - \beta_B e^{-r_S' \Delta T}) \Big)\Big]- \\
+& \frac{C_4}{\beta_A \beta_B} \exp(-\frac{\beta_B}{r_S'} e^{r_S' T}) \Big[1 - \exp(-\frac{\beta_A}{r_S} e^{r_S' (T+\Delta T)})\Big]
+\end{split}
+\end{equation}
+
+Similarly, it can be shown that $\iint_D f^* dA$ for \textbf{Case 2} ($T \leq \Delta T$) is:
+\begin{equation}
+\begin{split}
+\iint_D & f^* dA = K \sum_{k=0}^{\infty} \Bigg\{\frac{(-\beta_A/r_S')^k}{k!} (\frac{r_S}{\alpha_B}e^{r_S \Delta T})^{k r_S'/r_S} \cdot \\
+& \Big[\gamma\big(\frac{r_S'}{r_S}(k+1),\frac{\alpha_B}{r_S} e^{r_S T}\big) - \gamma\big(\frac{r_S'}{r_S}(k+1),\frac{\alpha_B}{r_S}\big)\Big]\Bigg\} - \\
+&\frac{C_3}{\beta_A \alpha_B} e^{-\alpha_B/r_S} \Big[\exp\Big(-\frac{\beta_A}{r_S'} e^{r_S'(T+\Delta T)}\Big) - \exp\Big(-\frac{\beta_A}{r_S'} e^{r_S' \Delta T}\Big)\Big] +\\ 
+&\frac{C_3}{\beta_A \alpha_B}\Big[1 - \exp\Big(-\frac{\beta_A}{r_S'} e^{r_S' (T+\Delta T)}\Big)\Big]\cdot\Big[\exp\Big(-\frac{\alpha_B}{r_S} e^{r_S T}\Big) - \exp\Big(-\frac{\alpha_B}{r_S}\Big)\Big]+\\ 
+&\frac{C_4}{\beta_B(\beta_A+\beta_B e^{-r_S' \Delta T})}\Big[1 - \exp\Big(-\frac{e^{r_S'(T+\Delta T)}}{r_S'} (\beta_A + \beta_B e^{-r_S' \Delta T})\Big)\Big] - \\ 
+&\frac{C_4}{\beta_A \beta_B} \exp(-\frac{\beta_B}{r_S'} e^{r_S' T})\Big[1 - \exp\Big(-\frac{\beta_A}{r_S'} e^{r_S'(T + \Delta T)}\Big)\Big]
+\end{split}
+\end{equation}
+
+\section{Conclusion}
+
+In summary, the probability that either allele is dominant upon relapse is the sum of the probability of its fixation and the probability of it outcompeting the other allele (equation (1)).
+
+The probability of each allele's fixation is given by equations (10) and (11):
+\begin{equation}
+\begin{split}
+P[\text{Allele A is fixed}] = P[\textbf{Outcome 2}] = (1 - \nu_A)\cdot\nu_B \\
+P[\text{Allele B is fixed}] = P[\textbf{Outcome 3}] = \nu_A \cdot (1 - \nu_B)
+\end{split}
+\end{equation}
+
+The probability of either allele outcompeting the other allele is given by equations (11), (14), and (16):
+\begin{equation}
+\begin{split}
+P[\text{Allele A detected first}] &= P[\textbf{Outcome 4}] \cdot P[\textbf{Outcome 4.A}|\textbf{Outcome 4}] \\
+&= (1-\nu_A)\cdot(1-\nu_B)\cdot \Big(1- \iint_D f^*_{A,B}(t_{A},t_{B}) dA\Big) \\
+P[\text{Allele B detected first}] &= P[\textbf{Outcome 4}] 
+\cdot P[\textbf{Outcome 4.B}|\textbf{Outcome 4}]  \\
+&= (1-\nu_A)\cdot(1-\nu_B)\cdot \iint_D f^*_{A,B}(t_{A},t_{B}) dA
+\end{split}
+\end{equation}
+where $\iint_D f^*_{A,B} (t_{A},t_{B}) dA$ is given by equation (29) for \textbf{Case 1} ($0 \leq \Delta T < T$) and equation (30) for \textbf{Case 2} ($T \leq \Delta T$).
+
+Thus, the probability that either allele is dominant upon relapse is given by substituting equations (33) and (34) into equation (1):
+\begin{equation}
+\begin{split}
+P[&\text{Allele A is dominant upon relapse}] \\ & = P[\textbf{Outcome 2}] + P[\textbf{Outcome 4}] \cdot P[\textbf{Outcome 4.A}|\textbf{Outcome 4}] \\
+& = (1-\nu_A) \cdot \nu_B + (1-\nu_A)\cdot(1-\nu_B)\cdot \Big(1- \iint_D f^*_{A,B}(t_{A},t_{B}) dA\Big) \\
+P[&\text{Allele B is dominant upon relapse}] \\ & = P[\textbf{Outcome 3}] + P[\textbf{Outcome 4}] \cdot P[\textbf{Outcome 4.B}|\textbf{Outcome 4}]  \\
+& = (1-\nu_B) \cdot \nu_A + (1-\nu_A)\cdot(1-\nu_B)\cdot  \iint_D f^*_{A,B}(t_{A},t_{B}) dA \cdot
+\end{split}
+\end{equation}
+
+\begin{thebibliography}{9}
+\bibitem{AthreyaNey}
+KB Athreya, PE Ney.
+\textit{Branching Processes}.
+Dover Publications, Mineola, NY, 2004.
+
+\bibitem{Fassoni}
+Fassoni AC, Baldow C, Roeder I, Glauche I. Reduced tyrosine kinase inhibitor dose is predicted to be as effective as standard dose in chronic myeloid leukemia: a simulation study based on phase III trial data. \textit{Haematologica}. 2018;103(11):1825-1834.
+
+\bibitem{KomarovaWodarz}
+Komarova NL, Wodarz D. Drug resistance in cancer: principles of emergence and prevention. \textit{Proc Natl Acad Sci U S A.} 2005;102(27):9714-9.
+
+\bibitem{Michor}
+Michor F, Hughes T, Iwasa Y, et al. Dynamics of chronic myeloid leukaemia. \textit{Nature} 2005;435 : 1267-70.
+
+\bibitem{Bozic}
+Bozic I, Reiter JG, Allen B, et al. Evolutionary dynamics of cancer in response to targeted combination therapy. \textit{Elife}. 2013;2:e00747.
+
+\end{thebibliography}
+
+
+\end{document}
